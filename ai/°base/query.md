@@ -5169,3 +5169,9 @@ Possibly the folder name be `NNN.prompt_id`.
 
 ❯ Conversation compacted <kbd>automatic</kbd> (`output/compact/006.019fdb75-51c0-7ef2-8b85-94b2fdd31a14/`):
 
+› Fix `./scripts/download_ref.py https://nixos.wiki/wiki/NixOS_on_ARM/Raspberry_Pi`
+
+› Normal browser can open the URL just fine
+
+› sorry, ygo aheaad
+

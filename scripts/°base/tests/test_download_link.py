@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import importlib.util
 import importlib
+import gzip
 import io
 import sys
 import tempfile
@@ -19,6 +20,7 @@ cli = importlib.import_module("°dllink_lib.cli")
 providers = importlib.import_module("°dllink_lib.providers")
 generic_provider = importlib.import_module("°dllink_lib.providers.generic")
 config = importlib.import_module("°dllink_lib.config")
+http = importlib.import_module("°dllink_lib.http")
 
 ENTRYPOINT_PATH = LIB_ROOT / "download-link.py"
 SPEC = importlib.util.spec_from_file_location("download_link_entrypoint", ENTRYPOINT_PATH)
@@ -189,6 +191,41 @@ class DownloadLinkPathTests(unittest.TestCase):
             ),
         )
 
+    def test_cloudflare_challenge_falls_back_to_latest_archive_snapshot(self):
+        url = "https://nixos.wiki/wiki/NixOS_on_ARM/Raspberry_Pi"
+        cdx_url = (
+            "https://web.archive.org/cdx/search/cdx?"
+            "url=https%3A%2F%2Fnixos.wiki%2Fwiki%2FNixOS_on_ARM%2FRaspberry_Pi&"
+            "output=json&filter=statuscode%3A200&filter=mimetype%3Atext%2Fhtml&"
+            "fl=timestamp%2Coriginal%2Cstatuscode&limit=1&sort=reverse"
+        )
+        timestamp = "20250105160600"
+        archive_url = f"https://web.archive.org/web/{timestamp}id_/{url}"
+        fetch = FakeFetch({
+            (url, "GET"): MODULE.Response(url=url, status=403, content=b"<title>Just a moment...</title>"),
+            (cdx_url, "GET"): MODULE.Response(
+                url=cdx_url,
+                status=200,
+                content=(
+                    '[["timestamp","original","statuscode"],'
+                    '["20250105160600","https://nixos.wiki/wiki/NixOS_on_ARM/Raspberry_Pi","200"]]'
+                ).encode(),
+            ),
+            (archive_url, "GET"): MODULE.Response(
+                url=archive_url,
+                status=200,
+                content=b"<html><body><h1>Raspberry Pi</h1></body></html>",
+                content_type="text/html",
+            ),
+        })
+
+        plan = MODULE.resolve_plan(url, Path("ai/references"), fetch)
+        result = MODULE.download(plan, fetch)
+
+        self.assertEqual(result.archive_timestamp, timestamp)
+        self.assertEqual(result.downloaded_url, archive_url)
+        self.assertIn(b"Raspberry Pi", result.content)
+
     @mock.patch.object(generic_provider, "git_ls_remote_sha", return_value="abcdefabcdefabcdefabcdefabcdefabcdefabcd")
     def test_selfhosted_gitlab_shape_resolves_without_gitlab_hostname(self, _ls_remote):
         url = "https://git.example.test/group/project/-/blob/main/docs/readme.md"
@@ -209,6 +246,9 @@ class DownloadLinkPathTests(unittest.TestCase):
 
 
 class DownloadLinkInputTests(unittest.TestCase):
+    def test_decode_content_decompresses_gzip(self):
+        self.assertEqual(http.decode_content(gzip.compress(b"# Page\n"), "gzip"), b"# Page\n")
+
     def test_open_ide_aliases_parse_to_open_ide(self):
         for option in ("--open-ide", "--open", "--ide", "--ide-open"):
             with self.subTest(option=option):

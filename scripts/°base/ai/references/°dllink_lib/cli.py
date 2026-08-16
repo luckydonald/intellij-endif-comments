@@ -69,7 +69,8 @@ def main(argv: list[str] | None = None) -> int:
         output_root = Path(args.output_root)
         plan = resolve_plan(url, output_root, fetch_url)
         plan = markdown_plan_if_available(plan, output_root, fetch_url)
-        path, content = download(plan, fetch_url)
+        result = download(plan, fetch_url)
+        path, content = result
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_bytes(content)
         if not args.no_git_add:
@@ -81,7 +82,10 @@ def main(argv: list[str] | None = None) -> int:
         print(f"download-link: {exc}", file=sys.stderr)
         return 1
 
-    print(f"download: {plan.download_url}")
+    print(f"download: {result.downloaded_url}")
+    if result.archive_timestamp:
+        print(f"archive fallback: snapshot from {result.archive_timestamp}", file=sys.stderr)
+    # end if
     print(f"wrote: {path}")
     if not args.no_git_add:
         print(f"git add: {path}")

@@ -4,9 +4,10 @@ import os
 import urllib.parse
 from pathlib import Path
 
+from .archive import is_cloudflare_challenge, latest_snapshot_url
 from .html import final_output_path, html_to_markdown
 from .http import fetch_url
-from .models import DownloadError, DownloadPlan, Fetch, Response
+from .models import DownloadError, DownloadPlan, DownloadResult, Fetch, Response
 from .paths import output_path_for_url, strip_fragment, unique
 from .providers import generic_forge_plan, github_plan, unsupported_forge_reason
 
@@ -93,11 +94,31 @@ def markdown_plan_if_available(plan: DownloadPlan, output_root: Path, fetch: Fet
     return plan
 
 
-def download(plan: DownloadPlan, fetch: Fetch = fetch_url) -> tuple[Path, bytes]:
+def download(plan: DownloadPlan, fetch: Fetch = fetch_url) -> DownloadResult:
     response = fetch(plan.download_url, "GET")
+    archive_timestamp: str | None = None
+    if is_cloudflare_challenge(response):
+        snapshot = latest_snapshot_url(plan.source_url, fetch)
+        if snapshot is not None:
+            archive_timestamp, archive_url = snapshot
+            response = fetch(archive_url, "GET")
+        # end if
+    # end if
     if response.status != 200:
         raise DownloadError(f"HTTP {response.status}: {plan.download_url}")
+    # end if
     if plan.convert_html:
         path = final_output_path(plan, response.text)
-        return path, html_to_markdown(response.text).encode("utf-8")
-    return plan.output_path, response.content
+        return DownloadResult(
+            path=path,
+            content=html_to_markdown(response.text).encode("utf-8"),
+            downloaded_url=response.url,
+            archive_timestamp=archive_timestamp,
+        )
+    # end if
+    return DownloadResult(
+        path=plan.output_path,
+        content=response.content,
+        downloaded_url=response.url,
+        archive_timestamp=archive_timestamp,
+    )
