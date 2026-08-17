@@ -5175,3 +5175,5 @@ Possibly the folder name be `NNN.prompt_id`.
 
 › sorry, ygo aheaad
 
+❯ Add a styleguide for markdown (`md.md`): Format Markdown files to not have aberitary line length linebreaks. You can aim for roughly 140 characters, but may only break at the end of sentences, or if desparate, also commas. Otherwise rather have a longer line than to split it weirdly mid-sentence. This applies to pretty much any markdown file, including plans, README.md, etc.
+
