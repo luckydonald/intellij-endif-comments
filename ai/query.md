@@ -82,3 +82,29 @@
 
 ❯ Please obay @ai/skills/code-style/references/md.md
 
+❯ Some more changes/additions:
+1. Detect existing (real code) `# end …` statements, in that case:
+   1. The automatic line is not needed.
+   2. Add a warning/inspection with auto-fix to remove that real-code line.
+2. In the `md.md` also mention that one shall not do `# end def foobar` or `# end class SomeClass`.
+
+❯ Question answered.
+> <details><summary>
+>
+>> 1. py.md already says "Do not repeat a function or class name" for end-comments. You said add the `# end def foobar` note to md.md — but md.md is the generic Markdown-prose-wrapping skill, unrelated to Python end-comments. Did you mean py.md?
+>
+> (click to expand)
+>
+> </summary>
+>
+>> **Which doc?** (1/1) <kbd>Single Select</kbd><br>
+>> py.md already says "Do not repeat a function or class name" for end-comments. You said add the `# end def foobar` note to md.md — but md.md is the generic Markdown-prose-wrapping skill, unrelated to Python end-comments. Did you mean py.md?
+> - [x] 1\. py.md (Recommended)
+>   - _Add an explicit bad-example (`# end def foobar` / `# end class SomeClass`) next to the existing rule in py.md's code example, so the plugin's inspection has a documented wrong-form to detect/fix._
+> - [ ] 2\. md.md, as I said
+>   - _Really add it to the generic Markdown style doc, e.g. as an example of a rule doc shouldn't violate in its own examples._
+> - [ ] 3\. _Type something._
+>
+> </details>
+>
+
