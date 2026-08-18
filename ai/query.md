@@ -197,3 +197,5 @@ Definitly progess, well done!
 
 - Also it's very difficult to distinguish the real deal from the new fake, can we style it differently? I.e. a faint strikethrough (.5 opacity on that line) or some background color?
 
+❯ First finish the current task and commit that, then tackle this new one: When starting an `if …:` and then hitting enter, the IDE goes into a new line with added indent for continuing to write in that if body. With the new `# end if` displayed correctly in the line below. However, that only for a few seconds, as then the `# end if` and my line swap place, moving my line below all `# end …` blocks at that place. Add a typing test, writing a class with a function, containing recursively every supported type.
+
