@@ -1,4 +1,2 @@
-- [redact external repo/client names](feedback_redact_external_repo_names.md) — base commits (query.md, plans, tests, errors/*) must not name repos/clients outside `luckydonald/`; bracket scope tags for own repos are fine.
-- [commit prefix: [base] [ssp]](feedback_commit_prefix_ssp_tag.md) — use `[base] [ssp] ` prefix, not bare `[base] `, for the git branch-split feature work.
-- [lib naming convention](feedback_lib_naming_convention.md) — new shared logic goes in a `°name_lib` package, not `_lib.py`; public functions there have no leading underscore.
-- [History-master replay guards](2026-07-20-history-master-replay-guards.md) — TODO: summarize this file.
+- [Dual work/private Codex config dirs](project_dual_codex_config_dirs.md) — base-repo hooks must resolve `~/.claude`-style paths through `$CLAUDE_CONFIG_DIR`; record-memory hook fixed, delete.py still needs it.
+- [Codex memory orphan-resource bug](project_codex_memory_orphan_resource_bug.md) — a deleted memory can keep resyncing back if its Codex-side resource copy has no matching `sources` metadata entry.
