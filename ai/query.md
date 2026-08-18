@@ -181,3 +181,7 @@
 
 ❯ Can you add an automated IDE UI test run? E.g. @ai/references/https/github.com/JetBrains/intellij-ui-test-robot/blob/a275b1d72deccff9ed69244dd052c96fede70fc4/README.md
 
+❯ did you test?
+
+❯ The UI tests are so *you* can confirm it!
+

@@ -48,11 +48,14 @@ Platform Test Framework.
 ## Run the automated UI smoke test
 
 Unit tests exercise the plugin's logic directly, but can't catch a mis-registered `plugin.xml`
-extension (a wrong extension-point name, a typo'd `implementationClass`, ...) — the platform
-silently ignores those instead of failing the build. The UI test drives a real running IDE via
-[`intellij-ui-test-robot`](https://github.com/JetBrains/intellij-ui-test-robot) and checks that the
-plugin actually did something observable (currently: the startup notification from
-`StartupNotifier` appears), catching that class of "installed and enabled, but has zero effect" bug.
+extension (a wrong extension-point name, a typo'd attribute, ...) — the platform silently ignores
+those instead of failing the build. This is exactly what happened once: `<extensions
+defaultExtensionPoint="com.intellij">` used a non-existent attribute name (it's
+`defaultExtensionNs`), so every single extension in the block silently failed to register while the
+plugin still showed up as "enabled" in Settings > Plugins. The UI test drives a real running IDE via
+[`intellij-ui-test-robot`](https://github.com/JetBrains/intellij-ui-test-robot) and asserts, via
+`ExtensionPointName` lookups run inside the IDE, that each of our extensions is actually registered
+— catching that whole class of "installed and enabled, but has zero effect" bug going forward.
 
 ```bash
 ./gradlew runIdeForUiTests &
@@ -91,7 +94,8 @@ they surface as a runtime error in an actual IDE.
   and removes redundant real `# end ...` comments.
 - `src/main/kotlin/de/luckydonald/endifcomments/settings/` — the persisted "Active" setting and its
   Settings page.
-- `src/main/kotlin/de/luckydonald/endifcomments/startup/` — temporary startup notification used to
-  diagnose "plugin installed but has no effect" issues; remove once no longer needed.
+- `src/main/kotlin/de/luckydonald/endifcomments/startup/` — startup notification confirming the
+  plugin loaded; added while diagnosing a "plugin installed but has no effect" bug (see below), kept
+  as a quick visual "yes it's active" signal.
 - `src/main/resources/META-INF/plugin.xml` — extension point registrations.
 - `src/uiTest/kotlin/` — the `intellij-ui-test-robot` UI smoke test (see above).

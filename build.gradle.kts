@@ -86,6 +86,11 @@ intellijPlatform {
 // uiTest`, matching the intellij-ui-test-robot Quick Start.
 val runIdeForUiTests = intellijPlatformTesting.runIde.register("runIdeForUiTests") {
     task {
+        // Open a project directly instead of landing on the Welcome Screen: our
+        // `postStartupActivity`/`ProjectActivity` (and any per-project feature) only fires once a
+        // project is actually open.
+        args = listOf(layout.projectDirectory.dir("src/uiTest/resources/sample-project").asFile.absolutePath)
+
         jvmArgumentProviders += CommandLineArgumentProvider {
             listOf(
                 "-Drobot-server.port=8082",
@@ -106,6 +111,10 @@ val uiTest = tasks.register<Test>("uiTest") {
     testClassesDirs = sourceSets["uiTest"].output.classesDirs
     classpath = sourceSets["uiTest"].runtimeClasspath
     useJUnit()
+
+    // remote-robot's Gson response parsing reflects into java.lang.Throwable fields, which needs
+    // an explicit opens on JDK 17+ (module java.base doesn't open java.lang to unnamed modules).
+    jvmArgs("--add-opens", "java.base/java.lang=ALL-UNNAMED")
 }
 
 kotlin {

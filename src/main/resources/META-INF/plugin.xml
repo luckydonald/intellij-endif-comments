@@ -12,7 +12,7 @@
     <depends>com.intellij.modules.platform</depends>
     <depends>com.intellij.modules.python</depends>
 
-    <extensions defaultExtensionPoint="com.intellij">
+    <extensions defaultExtensionNs="com.intellij">
         <highlightingPassFactory
                 implementation="de.luckydonald.endifcomments.inlay.EndCommentPassFactory"/>
 
