@@ -91,8 +91,8 @@ Use the IntelliJ Platform Test Framework the plugin template already wires up (J
 
 Reuse the GitHub Actions workflows already scaffolded by `intellij-platform-plugin-template` (it ships `build.yml`/`release.yml` by default) rather than writing new ones from scratch:
 
-- `build.yml`-equivalent: on push/PR, run `./gradlew check` (compiles + unit tests from above) and `./gradlew verifyPlugin` (IntelliJ Plugin Verifier, catches API-compatibility issues against the target IDE versions declared in `build.gradle.kts`).
-- Keep it PR/push-triggered only for v1 — skip wiring up the template's release/publish workflow (Marketplace upload) unless/until there's an actual release to ship.
+- **Test workflow** (`build.yml`-equivalent), triggered on every push/PR: run `./gradlew check` (compiles + unit tests from above) and `./gradlew verifyPlugin` (IntelliJ Plugin Verifier, catches API-compatibility issues against the target IDE versions declared in `build.gradle.kts`).
+- **Build workflow** (`release.yml`-equivalent), triggered on pushed version tags (e.g. `v*`): run `./gradlew buildPlugin` and upload the resulting ZIP from `build/distributions/` as a workflow/release artifact (a GitHub Release attached to that tag). Skip wiring up the template's Marketplace-publish step unless/until there's an actual public release to ship — tag-triggered builds just need to produce a downloadable artifact for now.
 
 ## Developer-facing docs
 
