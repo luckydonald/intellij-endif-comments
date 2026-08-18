@@ -31,7 +31,10 @@ class RedundantEndCommentInspection : LocalInspectionTool() {
                 holder.registerProblem(
                     comment,
                     "Redundant explicit block-ending comment — the Explicit Block Endings plugin already shows this virtually",
-                    ProblemHighlightType.LIKE_UNUSED_SYMBOL,
+                    // LIKE_DEPRECATED strikes the line through, which reads as clearly distinct from
+                    // the plugin's own virtual inlay (plain comment-colored text) — LIKE_UNUSED_SYMBOL
+                    // looked almost identical to the inlay and made real vs. virtual hard to tell apart.
+                    ProblemHighlightType.LIKE_DEPRECATED,
                     RemoveEndCommentQuickFix,
                 )
             }
