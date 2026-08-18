@@ -138,3 +138,9 @@
 - No effect in a `.py` file (both with and without actually typed-out `# end def`).
 - Add a "Hello IDE" Notification upon startup, as I'm getting paranoid it's simply not loading by now.
 
+❯ /plan I still can't see anything indicating it is actually working:
+- No new settings menu under _Other Settings_ > _Explicit Block Endings_.
+- No listing in _Editor > Inspections_ or _Editor > Intentions_.
+- No effect in a `.py` file (both with and without actually typed-out `# end def`).
+- Add a "Hello IDE" Notification upon startup, as I'm getting paranoid it's simply not loading by now.
+
