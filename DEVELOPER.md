@@ -45,6 +45,24 @@ file in it to see the virtual markers live, without touching your real PyCharm i
 Runs the unit tests (`src/test/kotlin`, fixtures under `src/test/testData`) via the IntelliJ
 Platform Test Framework.
 
+## Run the automated UI smoke test
+
+Unit tests exercise the plugin's logic directly, but can't catch a mis-registered `plugin.xml`
+extension (a wrong extension-point name, a typo'd `implementationClass`, ...) — the platform
+silently ignores those instead of failing the build. The UI test drives a real running IDE via
+[`intellij-ui-test-robot`](https://github.com/JetBrains/intellij-ui-test-robot) and checks that the
+plugin actually did something observable (currently: the startup notification from
+`StartupNotifier` appears), catching that class of "installed and enabled, but has zero effect" bug.
+
+```bash
+./gradlew runIdeForUiTests &
+./gradlew uiTest
+```
+
+The first command launches a sandboxed IDE with the plugin and the `robot-server` companion plugin
+installed, listening on `localhost:8082`; the second drives it and asserts against it. Test code
+lives in `src/uiTest/kotlin`.
+
 ## Verify plugin compatibility
 
 ```bash
@@ -58,7 +76,8 @@ they surface as a runtime error in an actual IDE.
 ## CI
 
 - `.github/workflows/test.yml` runs `./gradlew check` + `./gradlew verifyPlugin` on every push and
-  pull request.
+  pull request, plus a separate `ui-test` job that launches `runIdeForUiTests` under `xvfb` and
+  runs `uiTest` against it.
 - `.github/workflows/release.yml` runs `./gradlew buildPlugin` on pushed version tags (`v*`) and
   attaches the resulting ZIP to a GitHub Release.
 
@@ -72,4 +91,7 @@ they surface as a runtime error in an actual IDE.
   and removes redundant real `# end ...` comments.
 - `src/main/kotlin/de/luckydonald/endifcomments/settings/` — the persisted "Active" setting and its
   Settings page.
+- `src/main/kotlin/de/luckydonald/endifcomments/startup/` — temporary startup notification used to
+  diagnose "plugin installed but has no effect" issues; remove once no longer needed.
 - `src/main/resources/META-INF/plugin.xml` — extension point registrations.
+- `src/uiTest/kotlin/` — the `intellij-ui-test-robot` UI smoke test (see above).
