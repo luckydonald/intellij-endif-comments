@@ -179,3 +179,5 @@
 
 ❯ Check whether the Explore agent researching the empty until-build=\"\" plugin.xml issue has completed; if so, fold its finding into the debug plan file and then call ExitPlanMode.
 
+❯ Can you add an automated IDE UI test run? E.g. @ai/references/https/github.com/JetBrains/intellij-ui-test-robot/blob/a275b1d72deccff9ed69244dd052c96fede70fc4/README.md
+
