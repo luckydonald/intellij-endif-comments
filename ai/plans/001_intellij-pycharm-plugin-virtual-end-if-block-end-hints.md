@@ -62,10 +62,19 @@ Since the plugin now renders these virtual, a real `# end if` (or any real `# en
 - Implement a `LocalInspectionTool` (registered via `com.intellij.localInspection` in `plugin.xml`) that visits `PsiComment`s in Python files, matches them against the same keyword table used for the virtual hints (including the wrong-form variants like `# end def foobar`), and reports a warning when a comment sits exactly where a block-end marker belongs.
 - Provide a quick-fix (`LocalQuickFix`) that deletes the comment (and, if the comment was on its own line with nothing else, the whole line including its trailing newline) via a `WriteCommandAction`, so `# end if` never needs to be hand-maintained once the plugin covers that block.
 - This inspection is the one place in this plugin allowed to modify real file text — it deletes a redundant marker, it never inserts one. That's consistent with the "never write the marker into the file" goal: the plugin only removes stray real markers and replaces them with the virtual overlay.
+- "Fix all problems of this type in file" is IntelliJ's own built-in grouping, not something to implement by hand: as long as the `LocalQuickFix` returns a consistent, non-parameterized `getFamilyName()`, the platform automatically offers "Fix all '<inspection name>' problems in file" from the Alt+Enter menu, and lets multiple matches be selected and applied together from the Problems tool window / batch inspection results. Just verify this shows up once the inspection exists — no extra plumbing needed.
+
+## Settings: Active toggle
+
+In scope for v1: a settings page under **Settings > Other Settings** with a single "Active" checkbox that enables/disables the whole plugin (both the virtual hints and the inspection).
+
+- A lightweight application-level `PersistentStateComponent` service (e.g. `EndCommentSettingsState`) holding `var isActive: Boolean = true`, persisted to its own XML file via `@State`/`@Storage`.
+- A `Configurable` (registered via `<applicationConfigurable>` in `plugin.xml`, no `groupId`/`parentId` pointing at a known top-level group) with a single checkbox bound to that service's `isActive`. Leaving `groupId` unset is what makes the IDE place it under the synthetic "Other Settings" bucket — confirm this placement when wiring it up.
+- Both the `TextEditorHighlightingPass` (step 4 above) and the `LocalInspectionTool` (previous section) must check `isActive` early and no-op (no inlays added, no problems reported) when it's off.
 
 ## Out of scope for v1 (call out, don't build)
 
-- A Settings > Editor > Inlay Hints toggle entry (nice-to-have, can follow once the core rendering works).
+- Any settings beyond the single "Active" checkbox (e.g. per-keyword toggles, color customization) — can follow later.
 - Any code path that *inserts* the literal `# end …` comment into the file — explicitly not wanted. The new inspection above only *removes* redundant real comments; it must never write one.
 
 ## Verification
@@ -77,3 +86,5 @@ Since the plugin now renders these virtual, a real `# end if` (or any real `# en
   - Hints disappear/update live as code is edited.
   - The file is never modified by the hint rendering itself (diff/save it and confirm it's unchanged).
 - Type a real `# end if` (and a wrong-form `# end def foobar`) into a test file and confirm: the virtual inlay for that block is suppressed, the inspection reports a warning on the real comment, and its quick-fix removes the comment (and its now-empty line) without touching anything else in the file.
+- With several flagged comments in one file, confirm Alt+Enter on any one offers "Fix all '<inspection name>' problems in file", and that it removes all of them in one step.
+- Open **Settings > Other Settings**, confirm the plugin's page appears there with the "Active" checkbox, and that unchecking it removes all virtual hints and inspection warnings from open Python files (and re-checking restores them).
