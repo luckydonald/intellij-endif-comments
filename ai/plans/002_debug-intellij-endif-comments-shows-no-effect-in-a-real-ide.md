@@ -22,7 +22,7 @@ Given none of the three features show any effect at all, the likely cause is som
    - Register a `<notificationGroup id="..." displayType="BALLOON"/>` for it (required since newer platform versions no longer auto-register ad-hoc notification groups).
    - This is a temporary diagnostic — note in the plan (and mention to the user) that once the real issue is confirmed fixed, this notification should be removed again; don't leave permanent noisy startup UI in the shipped plugin.
 
-3. **Re-audit every remaining `plugin.xml` extension tag** the same way the `highlightingPassFactory` typo was found — confirm `localInspection`, `applicationService`, `applicationConfigurable` are exactly right (spot-checked already against real JetBrains examples and they match), and double check the `applicationConfigurable`'s missing `groupId`/`parentId` really does land it under "Other Settings" rather than simply not showing anywhere obvious — this was an assumption in the original plan, not something actually verified against real IDE behavior.
+4. **Re-audit every remaining `plugin.xml` extension tag** the same way the `highlightingPassFactory` typo was found — confirm `localInspection`, `applicationService`, `applicationConfigurable` are exactly right (spot-checked already against real JetBrains examples and they match), and double check the `applicationConfigurable`'s missing `groupId`/`parentId` really does land it under "Other Settings" rather than simply not showing anywhere obvious — this was an assumption in the original plan, not something actually verified against real IDE behavior.
 
 ## Verification
 
