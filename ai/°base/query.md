@@ -5192,3 +5192,6 @@ Possibly the folder name be `NNN.prompt_id`.
 
 ❯ What is `link_agents_claude`?
 
+❯ linked /home/user/git/luckydonald/DockerTgBot/forked/ai/errors/.gitignore -> ../../../scripts/°base/init/templates/ai-scratch.gitignore
+warning: unable to access 'forked/ai/output/explore/.gitignore': Too many levels of symbolic links
+

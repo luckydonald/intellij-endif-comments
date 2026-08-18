@@ -5,14 +5,16 @@
 # symlinks at <cwd>/.claude, <cwd>/.codex, <cwd>/ai/tool-settings,
 # <cwd>/ai/references, <cwd>/ai/skills and <cwd>/.mcp.json pointing at their
 # monorepo-root counterparts, each <cwd>/.run/*.run.xml pointing at its
-# monorepo-root counterpart, each ai/{errors,output/{agents,explore},plans}/
-# .gitignore pointing at a shared template, an <cwd>/AGENTS.md -> CLAUDE.md
-# symlink (moving any pre-existing AGENTS.md into CLAUDE.md first, mirroring
-# the root layout), and seeds <cwd>/ai/query.md / <cwd>/CLAUDE.md from
-# templates when they don't exist yet (copied, not symlinked, since they're
-# meant to diverge per subproject). This lets Claude Code and Codex find the
-# shared hooks/perms/MCP config when launched from inside a subfolder of a
-# monorepo that has the `base` repo merged at its top level.
+# monorepo-root counterpart, an <cwd>/AGENTS.md -> CLAUDE.md symlink (moving
+# any pre-existing AGENTS.md into CLAUDE.md first, mirroring the root
+# layout), and seeds <cwd>/ai/query.md, <cwd>/CLAUDE.md, and each
+# ai/{errors,output/{agents,explore},plans}/.gitignore from templates when
+# they don't exist yet (copied, not symlinked, since query.md/CLAUDE.md are
+# meant to diverge per subproject, and the scratch-dir .gitignores are
+# simple enough that a deep symlink chain isn't worth the ELOOP warnings it
+# can trigger in `git add` on some setups). This lets Claude Code and Codex
+# find the shared hooks/perms/MCP config when launched from inside a
+# subfolder of a monorepo that has the `base` repo merged at its top level.
 #
 # Run once from inside the subfolder:
 #
@@ -118,14 +120,6 @@ link_shared() {
   link_path "$rel" "$git_root/$rel"
 }
 
-# link_template <rel> <template_name> — symlinks <sub_dir>/<rel> -> the
-# shared template file <git_root>/scripts/°base/init/templates/<template_name>.
-link_template() {
-  local rel="$1"
-  local template_name="$2"
-  link_path "$rel" "$git_root/scripts/°base/init/templates/$template_name"
-}
-
 # copy_if_missing <rel> <template_name> — seeds <sub_dir>/<rel> from the
 # shared template if it doesn't exist yet. Never touches an existing file.
 copy_if_missing() {
@@ -169,14 +163,15 @@ link_run_configs() {
   done
 }
 
-# link_scratch_gitignores — symlinks the throwaway-scratch `.gitignore`
-# markers (which just ignore everything but themselves and `.gitkeep`) into
-# the ai/ scratch dirs, creating the dirs if needed.
+# link_scratch_gitignores — seeds the throwaway-scratch `.gitignore` markers
+# (which just ignore everything but themselves and `.gitkeep`) into the ai/
+# scratch dirs, creating the dirs if needed. Plain files, not symlinks: a
+# symlink chain this many directories deep triggers spurious ELOOP warnings
+# from `git add` on some setups even though it resolves fine.
 link_scratch_gitignores() {
   local rel
   for rel in "ai/errors" "ai/output/agents" "ai/output/explore" "ai/plans"; do
-    mkdir -p "$sub_dir/$rel"
-    link_template "$rel/.gitignore" "ai-scratch.gitignore"
+    copy_if_missing "$rel/.gitignore" "ai-scratch.gitignore"
   done
 }
 
