@@ -970,6 +970,9 @@ coverage/
 ######################################
 
 
+# IntelliJ Platform Gradle Plugin caches/sandbox (downloaded IDE distributions, test sandboxes)
+.intellijPlatform/
+.kotlin/
 
 
 

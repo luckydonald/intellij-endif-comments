@@ -1,0 +1,36 @@
+<idea-plugin>
+    <id>de.luckydonald.endifcomments</id>
+    <name>Explicit Block Endings</name>
+    <vendor url="https://github.com/luckydonald">Lucky Lucy</vendor>
+
+    <description><![CDATA[
+    Shows the <code># end if</code> / <code># end with</code> / ... block-end markers used by this
+    project's Python style as virtual, IDE-only annotations, never written into the file. Flags real
+    <code># end ...</code> comments as redundant, with a quick-fix to remove them.
+    ]]></description>
+
+    <depends>com.intellij.modules.platform</depends>
+    <depends>com.intellij.modules.python</depends>
+
+    <extensions defaultExtensionPoint="com.intellij">
+        <textEditorHighlightingPassFactory
+                implementation="de.luckydonald.endifcomments.inlay.EndCommentPassFactory"/>
+
+        <localInspection
+                language="Python"
+                groupPath="Python"
+                groupName="Explicit block endings"
+                shortName="RedundantEndComment"
+                displayName="Redundant explicit block-ending comment"
+                enabledByDefault="true"
+                level="WARNING"
+                implementationClass="de.luckydonald.endifcomments.inspection.RedundantEndCommentInspection"/>
+
+        <applicationService
+                serviceImplementation="de.luckydonald.endifcomments.settings.EndCommentSettingsState"/>
+
+        <applicationConfigurable
+                instance="de.luckydonald.endifcomments.settings.EndCommentConfigurable"
+                displayName="Explicit Block Endings"/>
+    </extensions>
+</idea-plugin>
