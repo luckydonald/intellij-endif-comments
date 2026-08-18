@@ -80,3 +80,5 @@
 
 ❯ The last `case` shall get a `# end case` to not have it skip a indent backwards. Also for more reference, you may inspect the _Indent Guidelines Highlighting_ of the rainbow brackets plugin, see @~/git/izhangzhihao/intellij-rainbow-brackets/ if that helps.
 
+❯ Please obay @ai/skills/code-style/references/md.md
+
