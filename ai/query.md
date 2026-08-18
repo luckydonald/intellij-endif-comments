@@ -130,3 +130,5 @@
 
 ❯ I installed it in my IDE, but don't see any effect.
 
+❯ Check whether the background `./gradlew check buildPlugin` run has finished; if so, confirm green and report the EP-name fix + reinstall instructions to the user.
+
