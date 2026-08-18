@@ -5,7 +5,6 @@ from __future__ import annotations
 
 import importlib
 import importlib.util
-import re
 import subprocess
 import sys
 from pathlib import Path
@@ -13,16 +12,12 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "hooks"))
 from _lib import (  # noqa: E402
     _chdir_to_git_root,
+    _encoded_project_dir,
     _is_inside_base_repo,
     _subproject_root,
 )
 
 memory_lib = importlib.import_module("°memory_lib")
-
-
-def _encoded_project_dir(subproject: Path) -> Path:
-    encoded = re.sub(r"[^a-zA-Z0-9]", "-", str(subproject))
-    return Path.home() / ".claude" / "projects" / encoded
 
 
 def _memory_dirs(subproject: Path) -> tuple[Path, Path]:

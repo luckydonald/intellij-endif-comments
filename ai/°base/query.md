@@ -5183,3 +5183,8 @@ Possibly the folder name be `NNN.prompt_id`.
 
 ❯ document your learnings.
 
+❯ Conversation compacted <kbd>manual</kbd>:
+> - [Result (`39176` chars, `38.4 KB`)](output/compact/006.e966d74d-ccf9-4289-a350-975851c0eb84/result.md)
+
+❯ Fix other occurences of this, too.
+

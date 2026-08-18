@@ -43,6 +43,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 import compact_result  # noqa: E402
 from _lib import (  # noqa: E402
     _chdir_to_git_root,
+    _encoded_project_dir,
     _is_inside_base_repo,
     _subproject_root,
     dump_debug_payload,
@@ -52,25 +53,6 @@ from _lib import (  # noqa: E402
 
 memory_lib = importlib.import_module("°memory_lib")
 commit_message = importlib.import_module("°commit_style_lib").commit_message
-
-
-def _claude_config_dir() -> Path:
-    """Claude Code's config root: ``~/.claude`` by default, or
-    ``$CLAUDE_CONFIG_DIR`` when relocated (e.g. multi-account setups like
-    ``~/.config/claude/accounts/<name>`` used to keep separate logins)."""
-    config_dir = os.environ.get("CLAUDE_CONFIG_DIR")
-    if config_dir:
-        return Path(config_dir).expanduser()
-    return Path.home() / ".claude"
-
-
-def _encoded_project_dir(subproject: Path) -> Path:
-    """Claude Code stores per-project state at
-    ``<config-dir>/projects/<encoded>/``, where <encoded> is the absolute
-    project path with all non-alphanumeric characters (including `/` and
-    `_`) replaced by `-`."""
-    encoded = re.sub(r"[^a-zA-Z0-9]", "-", str(subproject))
-    return _claude_config_dir() / "projects" / encoded
 
 
 def _memory_dirs(subproject: Path) -> tuple[Path, Path]:

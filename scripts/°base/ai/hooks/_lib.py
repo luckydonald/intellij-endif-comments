@@ -209,6 +209,25 @@ def is_cross_tool_duplicate(ai_tool: str) -> bool:
     return running_copilot_ and ai_tool != "copilot"
 
 
+def _claude_config_dir() -> Path:
+    """Claude Code's config root: ``~/.claude`` by default, or
+    ``$CLAUDE_CONFIG_DIR`` when relocated (e.g. multi-account setups like
+    ``~/.config/claude/accounts/<name>`` used to keep separate logins)."""
+    config_dir = os.environ.get("CLAUDE_CONFIG_DIR")
+    if config_dir:
+        return Path(config_dir).expanduser()
+    return Path.home() / ".claude"
+
+
+def _encoded_project_dir(subproject: Path) -> Path:
+    """Claude Code stores per-project state at
+    ``<config-dir>/projects/<encoded>/``, where <encoded> is the absolute
+    project path with all non-alphanumeric characters (including `/` and
+    `_`) replaced by `-`."""
+    encoded = re.sub(r"[^a-zA-Z0-9]", "-", str(subproject))
+    return _claude_config_dir() / "projects" / encoded
+
+
 def _subproject_root() -> Path:
     """The directory Claude was launched from. Claude Code sets
     ``CLAUDE_PROJECT_DIR`` for hook commands; manual invocations and the test
