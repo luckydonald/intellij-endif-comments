@@ -177,3 +177,5 @@
 > - [Raw log (`230716` chars, `225 KB`)](/tmp/claude-1000/-home-user-git-luckydonald-intellij-endif-comments/8e03302c-e343-421b-b182-4b5795b0493f/tasks/a5ad618f5304220c9.output)
 > - `28` tools, `47112` tokens, `4.22248 s`
 
+❯ Check whether the Explore agent researching the empty until-build=\"\" plugin.xml issue has completed; if so, fold its finding into the debug plan file and then call ExitPlanMode.
+
