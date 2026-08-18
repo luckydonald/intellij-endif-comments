@@ -22,7 +22,11 @@ of an existing line. That style is not supported by the modern "declarative" Inl
 following the existing "close a whole chain with one comment" rule used for `if`/`elif`/`else`:
 
 - `try` / `except` / `else` / `finally` → `# end try` (one comment closing the whole chain)
-- `match` / `case` → `# end match` (one comment closing the whole statement, not per-`case`)
+- `match` / `case` → the last `case` block gets its own `# end case` (otherwise its dedent back to
+  the `match` level looks unmarked), and the whole `match` statement additionally gets `# end match`
+  right after it — two stacked comments, unlike the single-comment `if`/`try` chains, because each
+  `case` body is its own indent scope nested inside `match`'s scope (same "two blocks end at the
+  same source point" case as the skill's `with`-inside-`if` example).
 
 Edit `ai/skills/code-style/references/py.md`: add these two rows to the bullet list (§ line 26-33)
 and extend the code example if useful. The plugin's keyword table must match this doc exactly, so
@@ -56,12 +60,13 @@ we don't want Gradle files at repo root next to the `ai/` tooling — confirm du
    constructs from the (updated) skill doc:
    `PyIfStatement → "if"`, `PyWithStatement → "with"`, `PyForStatement → "for"`,
    `PyWhileStatement → "while"`, `PyFunction → "def"`, `PyClass → "class"`,
-   `PyTryExceptStatement → "try"`, `PyMatchStatement → "match"` (exact PSI class names to be
-   confirmed against the bundled `PythonCore` sources when writing the code — Python plugin PSI
-   interfaces live in package `com.jetbrains.python.psi`).
-   For chain constructs (`if`/`elif`/else, `try`/`except`/`else`/`finally`), anchor the hint to the
-   end of the *whole* statement (covers all branches), not each branch — same rule the skill already
-   uses for `if`.
+   `PyTryExceptStatement → "try"`, `PyMatchStatement → "match"`, `PyCaseClause → "case"` (exact PSI
+   class names to be confirmed against the bundled `PythonCore` sources when writing the code —
+   Python plugin PSI interfaces live in package `com.jetbrains.python.psi`).
+   - For `if`/`elif`/else and `try`/`except`/`else`/`finally`, anchor the hint to the end of the
+     *whole* statement (covers all branches) — one `# end if` / `# end try`, not one per branch.
+   - For `match`, additionally emit `# end case` for the **last** `case` clause only (its own block
+     ends there), stacked with `# end match` right underneath it — see placement rule below.
 
 2. **Renderer** — `EditorCustomElementRenderer` implementation that paints one line of text
    (e.g. `# end if`) using the editor's comment/inlay-hint color scheme attributes, left-padded to
@@ -78,6 +83,15 @@ we don't want Gradle files at repo root next to the `ai/` tooling — confirm du
    platform automatically reruns it on every document/PSI change, same mechanism the daemon uses for
    other inline annotations. On each run, diff the newly computed set of (offset, text) against the
    inlays already present in that range and only add/dispose the difference, to avoid flicker.
+   Reference implementation for this exact pass-factory + diffing pattern (register pass, collect
+   in `doCollectInformation`, diff old vs new by sorted offset comparison in
+   `doApplyInformationToEditor`, dispose stale, add missing): the rainbow-brackets plugin's
+   `RainbowIndentsPassFactory.kt` / `RainbowIndentsPass.kt`
+   (`~/git/izhangzhihao/intellij-rainbow-brackets/src/main/kotlin/.../lite/indents/`). Note it uses
+   `MarkupModel.addRangeHighlighter` + `CustomHighlighterRenderer` to paint *inside* existing lines
+   (indent guides) — that part doesn't apply here since we need real block inlays
+   (`InlayModel.addBlockElement` + `EditorCustomElementRenderer`) that reserve extra vertical space
+   for a whole new virtual line; only the pass-registration and old/new diffing structure carries over.
 
 5. Register the pass/provider only for Python files (`PythonFileType.INSTANCE` / `PythonLanguage.INSTANCE`).
 
@@ -91,6 +105,8 @@ we don't want Gradle files at repo root next to the `ai/` tooling — confirm du
 - `./gradlew buildPlugin` succeeds.
 - `./gradlew runIde` launches a sandbox PyCharm; open a Python file with nested `if` / `with` /
   `for` / `while` / `def` / `class` / `try` / `match` blocks (mirror the skill's example plus a
-  `try`/`except` and a `match`/`case`) and confirm each virtual `# end …` line renders at the
-  correct indentation and nesting order, disappears/updates live as code is edited, and is never
-  written into the actual file (diff/save the file and confirm it's unchanged).
+  `try`/`except` and a `match`/`case` with 2+ cases) and confirm:
+  - each virtual `# end …` line renders at the correct indentation and nesting order
+  - the `match` case specifically shows both `# end case` (last case only) and `# end match` stacked
+  - hints disappear/update live as code is edited
+  - the file is never modified (diff/save it and confirm it's unchanged)
