@@ -132,3 +132,9 @@
 
 ❯ Check whether the background `./gradlew check buildPlugin` run has finished; if so, confirm green and report the EP-name fix + reinstall instructions to the user.
 
+❯ I still can't see:
+- No new settings menu under _Other Settings_ > _Explicit Block Endings_.
+- No listing in _Editor > Inspections_ or _Editor > Intentions_.
+- No effect in a `.py` file (both with and without actually typed-out `# end def`).
+- Add a "Hello IDE" Notification upon startup, as I'm getting paranoid it's simply not loading by now.
+
