@@ -26,6 +26,7 @@ Given none of the three features show any effect at all, the likely cause is som
 
 ## Verification
 
+- Before rebuilding: ask user check `idea.log` now (current install) for `de.luckydonald.endifcomments` / `PluginException` — cheap, might already show root cause without a rebuild cycle.
 - Rebuild (`./gradlew buildPlugin`), reinstall from disk, restart the IDE.
 - Confirm the "Explicit Block Endings loaded" notification appears on project open — if it doesn't, the problem is upstream of all three features (plugin isn't initializing at all; check `idea.log` for a startup exception mentioning our plugin id) and the `until-build` fix should be re-checked first.
 - Once the notification confirms real initialization, check the three original symptoms again: Settings > Other Settings, Editor > Inspections listing, and virtual hints in a `.py` file with an `if`/`def`/etc. block, plus the warning on a real `# end def`.
