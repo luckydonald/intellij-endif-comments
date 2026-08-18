@@ -144,3 +144,24 @@
 - No effect in a `.py` file (both with and without actually typed-out `# end def`).
 - Add a "Hello IDE" Notification upon startup, as I'm getting paranoid it's simply not loading by now.
 
+❯ Question answered.
+> <details><summary>
+>
+>> 1. Could you check Settings > Plugins, find "Explicit Block Endings", and tell me whether it shows as enabled/greyed-out/has an error icon or incompatibility warning next to it? This narrows down whether the IDE is silently refusing to load the plugin at all vs. loading it but nothing happening.
+>
+> (click to expand)
+>
+> </summary>
+>
+>> **Plugin state** (1/1) <kbd>Single Select</kbd><br>
+>> Could you check Settings > Plugins, find "Explicit Block Endings", and tell me whether it shows as enabled/greyed-out/has an error icon or incompatibility warning next to it? This narrows down whether the IDE is silently refusing to load the plugin at all vs. loading it but nothing happening.
+> - [ ] 1\. I'll check and report back
+>   - _Look at Settings > Plugins > Installed, find the plugin, note its toggle state and any warning/error text or icon shown._
+> - [ ] 2\. Skip, just fix blind
+>   - _Don't want to check right now — go ahead and fix the most likely bug (a plugin.xml compatibility-range issue I already found) without this extra info._
+> - [x] 3\. _Type something:_
+>   - > It is there, marked as enabled, v `0.1.0`.
+>
+> </details>
+>
+
