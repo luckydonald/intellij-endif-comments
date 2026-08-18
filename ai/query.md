@@ -168,3 +168,12 @@
 ❯ Conversation compacted <kbd>manual</kbd>:
 > - [Result (`45667` chars, `44.8 KB`)](output/compact/001.a8f5771a-a7c9-4b9b-9f01-7c7bbdde870a/result.md)
 
+❯ Task Notification:
+> - Task `a5ad618f5304220c9` <kbd>completed</kbd>
+> - Tool `toolu_01KGv461DcZTHqbjsBo2nxsb`
+> - > Agent "Check patchPluginXml empty untilBuild behavior" finished
+> - [Query (`1803` chars, `1.76 KB`)](output/agents/011.a5ad618f5304220c9/prompt.md)
+> - [Answer (`2577` chars, `2.53 KB`)](output/agents/011.a5ad618f5304220c9/result.md)
+> - [Raw log (`230716` chars, `225 KB`)](/tmp/claude-1000/-home-user-git-luckydonald-intellij-endif-comments/8e03302c-e343-421b-b182-4b5795b0493f/tasks/a5ad618f5304220c9.output)
+> - `28` tools, `47112` tokens, `4.22248 s`
+
