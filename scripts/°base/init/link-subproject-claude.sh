@@ -2,23 +2,27 @@
 # scripts/°base/init/link-subproject-claude.sh
 #
 # Idempotent per-subfolder setup for the monorepo case: creates relative
-# symlinks at <cwd>/.claude, <cwd>/.codex, <cwd>/ai/tool-settings and
-# <cwd>/.mcp.json pointing at their monorepo-root counterparts, plus an
-# <cwd>/AGENTS.md -> CLAUDE.md symlink (moving any pre-existing AGENTS.md
-# into CLAUDE.md first, mirroring the root layout). This lets Claude Code
-# and Codex find the shared hooks/perms/MCP config when launched from
-# inside a subfolder of a monorepo that has the `base` repo merged at its
-# top level.
+# symlinks at <cwd>/.claude, <cwd>/.codex, <cwd>/ai/tool-settings,
+# <cwd>/ai/references, <cwd>/ai/skills and <cwd>/.mcp.json pointing at their
+# monorepo-root counterparts, each <cwd>/.run/*.run.xml pointing at its
+# monorepo-root counterpart, each ai/{errors,output/{agents,explore},plans}/
+# .gitignore pointing at a shared template, an <cwd>/AGENTS.md -> CLAUDE.md
+# symlink (moving any pre-existing AGENTS.md into CLAUDE.md first, mirroring
+# the root layout), and seeds <cwd>/ai/query.md / <cwd>/CLAUDE.md from
+# templates when they don't exist yet (copied, not symlinked, since they're
+# meant to diverge per subproject). This lets Claude Code and Codex find the
+# shared hooks/perms/MCP config when launched from inside a subfolder of a
+# monorepo that has the `base` repo merged at its top level.
 #
 # Run once from inside the subfolder:
 #
 #   cd monorepo/some_project
 #   ../scripts/°base/init/link-subproject-claude.sh
 #
-# Safe to run multiple times — already-correct symlinks are left alone.
-# Anything pre-existing that would be clobbered is moved aside first, as
-# `{name}.YYYY-MM-DD_HH-MM-SS.bak.{ext}` (via `git mv` when tracked). New
-# symlinks (and moved files) are `git add`ed.
+# Safe to run multiple times — already-correct symlinks/seeded files are
+# left alone. Anything pre-existing that would be clobbered by a symlink is
+# moved aside first, as `{name}.YYYY-MM-DD_HH-MM-SS.bak.{ext}` (via `git mv`
+# when tracked). New symlinks/seeded files (and moved files) are `git add`ed.
 
 set -euo pipefail
 
@@ -72,12 +76,12 @@ print(os.path.join(d, f"{stem}.{timestamp}.bak{ext}"))
   echo "backed up $sub_dir/$rel -> $sub_dir/$bak_rel" >&2
 }
 
-# link_shared <rel> — symlinks <sub_dir>/<rel> -> <git_root>/<rel>,
+# link_path <rel> <source> — symlinks <sub_dir>/<rel> -> <source>,
 # backing up whatever is already at the target if it's not already the
 # right symlink.
-link_shared() {
+link_path() {
   local rel="$1"
-  local source="$git_root/$rel"
+  local source="$2"
   local target="$sub_dir/$rel"
   local target_dir
   target_dir="$(dirname "$target")"
@@ -106,6 +110,74 @@ link_shared() {
   ln -s "$rel_link" "$target"
   echo "linked $target -> $rel_link"
   git -C "$sub_dir" add -- "$rel"
+}
+
+# link_shared <rel> — symlinks <sub_dir>/<rel> -> <git_root>/<rel>.
+link_shared() {
+  local rel="$1"
+  link_path "$rel" "$git_root/$rel"
+}
+
+# link_template <rel> <template_name> — symlinks <sub_dir>/<rel> -> the
+# shared template file <git_root>/scripts/°base/init/templates/<template_name>.
+link_template() {
+  local rel="$1"
+  local template_name="$2"
+  link_path "$rel" "$git_root/scripts/°base/init/templates/$template_name"
+}
+
+# copy_if_missing <rel> <template_name> — seeds <sub_dir>/<rel> from the
+# shared template if it doesn't exist yet. Never touches an existing file.
+copy_if_missing() {
+  local rel="$1"
+  local template_name="$2"
+  local source="$git_root/scripts/°base/init/templates/$template_name"
+  local target="$sub_dir/$rel"
+
+  if [ -e "$target" ] || [ -L "$target" ]; then
+    echo "$target already exists — leaving it alone."
+    return
+  fi
+
+  if [ ! -e "$source" ]; then
+    echo "no $source — skipping $rel" >&2
+    return
+  fi
+
+  mkdir -p "$(dirname "$target")"
+  cp -- "$source" "$target"
+  echo "seeded $target from $source"
+  git -C "$sub_dir" add -- "$rel"
+}
+
+# link_run_configs — symlinks each <git_root>/.run/*.run.xml individually
+# into <sub_dir>/.run/, so consuming repos can add their own local-only
+# run configs alongside the shared ones without a whole-directory symlink.
+link_run_configs() {
+  local run_dir="$git_root/.run"
+  local f rel
+
+  if [ ! -d "$run_dir" ]; then
+    echo "no $run_dir — skipping .run configs" >&2
+    return
+  fi
+
+  for f in "$run_dir"/*.run.xml; do
+    [ -e "$f" ] || continue
+    rel=".run/$(basename "$f")"
+    link_shared "$rel"
+  done
+}
+
+# link_scratch_gitignores — symlinks the throwaway-scratch `.gitignore`
+# markers (which just ignore everything but themselves and `.gitkeep`) into
+# the ai/ scratch dirs, creating the dirs if needed.
+link_scratch_gitignores() {
+  local rel
+  for rel in "ai/errors" "ai/output/agents" "ai/output/explore" "ai/plans"; do
+    mkdir -p "$sub_dir/$rel"
+    link_template "$rel/.gitignore" "ai-scratch.gitignore"
+  done
 }
 
 # link_agents_claude — ensures <sub_dir>/AGENTS.md -> CLAUDE.md, moving a
@@ -148,5 +220,11 @@ link_agents_claude() {
 link_shared ".claude"
 link_shared ".codex"
 link_shared "ai/tool-settings"
+link_shared "ai/references"
+link_shared "ai/skills"
 link_shared ".mcp.json"
+link_run_configs
+link_scratch_gitignores
+copy_if_missing "ai/query.md" "query.md"
+copy_if_missing "CLAUDE.md" "CLAUDE.md"
 link_agents_claude

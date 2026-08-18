@@ -5188,3 +5188,7 @@ Possibly the folder name be `NNN.prompt_id`.
 
 ❯ Fix other occurences of this, too.
 
+❯ /plan Update @./scripts/°base/init/link-subproject-claude.sh to already create the `ai/{query.md,{errors,output/{agents,explore},plans}/.gitignore}` files. The `.gitignore`s can be even symlinked, lol. Also the `ai/{references,skills}/` directory shall be symlinked. So shall be `.run/*.run.xml` (one by one). You may provide scaffolding `query.md` and `CLAUDE.md` which would be copied over if not yet existent. Not symlinked, otherwise changes would kill the template.
+
+❯ What is `link_agents_claude`?
+
