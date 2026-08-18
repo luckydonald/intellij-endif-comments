@@ -38,3 +38,4 @@ Given none of the three features show any effect at all, the likely cause is som
 - Confirm the "Explicit Block Endings loaded" notification appears on project open — if it doesn't, the problem is upstream of all three features (plugin isn't initializing at all; check `idea.log` for a startup exception mentioning our plugin id) and the `until-build` fix should be re-checked first.
 - Once the notification confirms real initialization, check the three original symptoms again: Settings > Other Settings, Editor > Inspections listing, and virtual hints in a `.py` file with an `if`/`def`/etc. block, plus the warning on a real `# end def`.
 - Once confirmed working, remove the temporary startup notification in a follow-up commit.
+- Run the new `uiTest` task locally to confirm it independently detects inlay/inspection/settings-page presence; keep it wired into CI going forward.
