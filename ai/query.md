@@ -112,3 +112,5 @@
 - A _Fix all of this issue_ as it's usually common with those would be wonderful. I'm not sure if that's a "grouping" of the IDE seeing many of the same errors, or something which has to be implemented.
 - The settings (in <kbd>Settings</kbd> -> <kbd>Other Settings</kbd>) with (for now only) the general "Active" checkbox shall be in scope.
 
+❯ I want you to also set up automated testing for it, and a github pipeline as well as a easy to run local instruction how to create/compile this & how to get it loaded e.g. into PyCharm (developer facing instructions).
+

@@ -77,9 +77,37 @@ In scope for v1: a settings page under **Settings > Other Settings** with a sing
 - Any settings beyond the single "Active" checkbox (e.g. per-keyword toggles, color customization) — can follow later.
 - Any code path that *inserts* the literal `# end …` comment into the file — explicitly not wanted. The new inspection above only *removes* redundant real comments; it must never write one.
 
+## Automated tests
+
+Use the IntelliJ Platform Test Framework the plugin template already wires up (JUnit4 + `BasePlatformTestCase`, `src/test/kotlin` + `src/test/testData`):
+
+- One test fixture per keyword/scenario: `.py` source under `src/test/testData/` for plain `if`/`with`/`for`/`while`/`def`/`class`/`try`/`match` blocks, the skill's nested `with`-inside-`if` stacking example, a `match` with 2+ `case`s, and a file containing a pre-existing real `# end if` and a wrong-form `# end def foobar`.
+- For each fixture, `myFixture.configureByFile(...)` then assert on `myFixture.editor.inlayModel.getBlockElementsInRange(0, document.textLength)`: the right count, text, indentation column, and stacking order of hints — this is the same fixture/editor access other platform inlay tests use, no UI test framework needed since block inlays are inspectable directly from the model.
+- A test asserting the file's text is byte-identical before/after the pass runs (covers the "never writes to the file" requirement).
+- A test driving the `LocalInspectionTool` via `myFixture.enableInspections(...)` + `myFixture.checkHighlighting()` / `myFixture.getAllQuickFixes()` for the real-comment fixture, applying the quick-fix and asserting the resulting text.
+- Run via `./gradlew check` (also what CI below calls).
+
+## CI pipeline
+
+Reuse the GitHub Actions workflows already scaffolded by `intellij-platform-plugin-template` (it ships `build.yml`/`release.yml` by default) rather than writing new ones from scratch:
+
+- `build.yml`-equivalent: on push/PR, run `./gradlew check` (compiles + unit tests from above) and `./gradlew verifyPlugin` (IntelliJ Plugin Verifier, catches API-compatibility issues against the target IDE versions declared in `build.gradle.kts`).
+- Keep it PR/push-triggered only for v1 — skip wiring up the template's release/publish workflow (Marketplace upload) unless/until there's an actual release to ship.
+
+## Developer-facing docs
+
+Add a `README.md` (or a `docs/` page, matching however this repo already organizes such things) with:
+
+1. **Build**: `./gradlew buildPlugin` — output ZIP lands in `build/distributions/`.
+2. **Run in a sandbox IDE**: `./gradlew runIde` (launches a disposable PyCharm instance with the plugin pre-installed — the fastest loop while developing).
+3. **Install into a real PyCharm**: `Settings/Preferences > Plugins > ⚙️ > Install Plugin from Disk...` → pick the ZIP from `build/distributions/`.
+4. **Run tests**: `./gradlew check`.
+5. Any one-time setup (JDK version required by the Gradle plugin template, etc.) pulled from whatever `gradle.properties`/`build.gradle.kts` end up requiring.
+
 ## Verification
 
 - `./gradlew buildPlugin` succeeds.
+- `./gradlew check` passes (unit tests above, including the inlay-content, no-file-mutation, and inspection/quick-fix tests).
 - `./gradlew runIde` launches a sandbox PyCharm; open a Python file with nested `if` / `with` / `for` / `while` / `def` / `class` / `try` / `match` blocks (mirror the skill's example plus a `try`/`except` and a `match`/`case` with 2+ cases) and confirm:
   - Each virtual `# end …` line renders at the correct indentation and nesting order.
   - The `match` case specifically shows both `# end case` (last case only) and `# end match` stacked.
