@@ -1,10 +1,12 @@
 package de.luckydonald.endifcomments.model
 
+import com.intellij.lang.ASTNode
 import com.intellij.openapi.editor.Document
 import com.intellij.psi.PsiComment
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import com.intellij.psi.PsiRecursiveElementWalkingVisitor
+import com.intellij.psi.TokenType
 import com.intellij.psi.util.PsiTreeUtil
 import com.jetbrains.python.psi.PyCaseClause
 import com.jetbrains.python.psi.PyMatchStatement
@@ -82,9 +84,34 @@ object EndCommentScanner {
         val startLine = document.getLineNumber(startOffset)
         val indentColumn = startOffset - document.getLineStartOffset(startLine)
 
-        val endLine = document.getLineNumber((statement.textRange.endOffset - 1).coerceAtLeast(startOffset))
+        val effectiveEndOffset = lastMeaningfulOffset(statement)
+        val endLine = document.getLineNumber((effectiveEndOffset - 1).coerceAtLeast(startOffset))
         val anchorOffset = document.getLineEndOffset(endLine)
 
         return EndMarker(statement, text, anchorOffset, indentColumn)
+    }
+
+    /**
+     * End offset of the last non-blank content inside [statement], ignoring trailing whitespace.
+     *
+     * While a block is still being typed (e.g. right after `if True:` + Enter), the parser attaches
+     * the freshly auto-indented, still-empty next line to the statement's suite as it reparses — if
+     * we anchored on the raw [PsiElement.getTextRange] end, the marker would then jump to sit right
+     * after that blank line, i.e. right where the user is about to type, instead of staying under the
+     * last real statement. Walking down through trailing whitespace nodes keeps the anchor pinned to
+     * the last actual content regardless of how much blank trailing indentation the parser has (or
+     * hasn't yet) attached.
+     */
+    private fun lastMeaningfulOffset(statement: PsiElement): Int {
+        var node: ASTNode = statement.node
+        while (true) {
+            var child = node.lastChildNode
+            while (child != null && (child.elementType == TokenType.WHITE_SPACE || child.textLength == 0)) {
+                child = child.treePrev
+            }
+            if (child == null) break
+            node = child
+        }
+        return node.startOffset + node.textLength
     }
 }

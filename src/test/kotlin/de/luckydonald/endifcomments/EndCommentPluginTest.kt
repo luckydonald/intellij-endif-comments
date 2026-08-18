@@ -1,5 +1,6 @@
 package de.luckydonald.endifcomments
 
+import com.intellij.psi.PsiDocumentManager
 import com.intellij.testFramework.fixtures.BasePlatformTestCase
 import de.luckydonald.endifcomments.inspection.RedundantEndCommentInspection
 import de.luckydonald.endifcomments.model.EndCommentScanner
@@ -63,6 +64,48 @@ class EndCommentPluginTest : BasePlatformTestCase() {
             assertTrue(EndCommentSettingsState.getInstance().isActive)
         } finally {
             settings.isActive = original
+        }
+    }
+
+    /**
+     * Regression test for a bug where, right after typing a block header + Enter, the editor's
+     * auto-indent leaves a blank indented line for the caret — and the parser briefly attaches that
+     * blank line to the still-empty suite, which used to drag every open block's `# end ...` marker
+     * down onto the caret's own line, swapping places with whatever the user types next. Types a
+     * class containing a function that recursively nests one of every supported block-opening
+     * keyword, checking after each `Enter` that every currently visible marker still anchors above
+     * the caret's (blank, not-yet-typed) line rather than on top of it.
+     */
+    fun testTypingNestedBlocksNeverPlacesEndMarkersOnTheCaretLine() {
+        myFixture.configureByText("typing.py", "")
+
+        for (line in listOf(
+            "class Foo:\n",
+            "def bar():\n",
+            "if True:\n",
+            "with x:\n",
+            "for i in y:\n",
+            "while True:\n",
+            "try:\n",
+            "match z:\n",
+            "case 1:\n",
+        )) {
+            myFixture.type(line)
+            assertMarkersAnchorAboveCaretLine()
+        }
+    }
+
+    private fun assertMarkersAnchorAboveCaretLine() {
+        val document = myFixture.editor.document
+        PsiDocumentManager.getInstance(project).commitDocument(document)
+
+        val caretLine = document.getLineNumber(myFixture.editor.caretModel.offset)
+        for (marker in EndCommentScanner.visibleMarkers(myFixture.file, document)) {
+            val anchorLine = document.getLineNumber(marker.anchorOffset)
+            assertTrue(
+                "marker '${marker.text}' anchored at line $anchorLine, expected strictly before caret line $caretLine",
+                anchorLine < caretLine,
+            )
         }
     }
 
