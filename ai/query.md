@@ -165,3 +165,6 @@
 > </details>
 >
 
+❯ Conversation compacted <kbd>manual</kbd>:
+> - [Result (`45667` chars, `44.8 KB`)](output/compact/001.a8f5771a-a7c9-4b9b-9f01-7c7bbdde870a/result.md)
+
