@@ -1,3 +1,4 @@
+import org.gradle.process.CommandLineArgumentProvider
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
@@ -14,7 +15,27 @@ repositories {
     intellijPlatform {
         defaultRepositories()
     }
+    // Home of the `remote-robot`/`remote-fixtures` artifacts used by the `uiTest` UI test.
+    maven("https://packages.jetbrains.team/maven/p/ij/intellij-dependencies")
 }
+
+val remoteRobotVersion = "0.11.23"
+
+// Dedicated source set for the `intellij-ui-test-robot` UI smoke test: it's a *client* that talks
+// to a separately-launched IDE process over HTTP, so it must not share a classpath/JVM with the
+// regular unit tests (which run inside the IDE fixture itself).
+sourceSets {
+    create("uiTest") {
+        kotlin.srcDir("src/uiTest/kotlin")
+        compileClasspath += sourceSets.main.get().output
+        runtimeClasspath += sourceSets.main.get().output
+    }
+}
+
+val uiTestImplementation: Configuration = configurations.getByName("uiTestImplementation") {
+    extendsFrom(configurations.getByName("implementation"))
+}
+configurations.getByName("uiTestRuntimeOnly").extendsFrom(configurations.getByName("runtimeOnly"))
 
 dependencies {
     intellijPlatform {
@@ -33,6 +54,11 @@ dependencies {
     }
 
     testImplementation("junit:junit:4.13.2")
+
+    uiTestImplementation(kotlin("stdlib"))
+    uiTestImplementation("com.intellij.remoterobot:remote-robot:$remoteRobotVersion")
+    uiTestImplementation("com.intellij.remoterobot:remote-fixtures:$remoteRobotVersion")
+    uiTestImplementation("junit:junit:4.13.2")
 }
 
 intellijPlatform {
@@ -50,9 +76,36 @@ intellijPlatform {
 
         ideaVersion {
             sinceBuild = providers.gradleProperty("pluginSinceBuild")
-            untilBuild = providers.gradleProperty("pluginUntilBuild")
+            untilBuild = provider { null }
         }
     }
+}
+
+// Launches a sandboxed IDE with our plugin and the `robot-server` companion plugin installed, so
+// `uiTest` (below) can drive it over HTTP. Run as `./gradlew runIdeForUiTests &`, then `./gradlew
+// uiTest`, matching the intellij-ui-test-robot Quick Start.
+val runIdeForUiTests = intellijPlatformTesting.runIde.register("runIdeForUiTests") {
+    task {
+        jvmArgumentProviders += CommandLineArgumentProvider {
+            listOf(
+                "-Drobot-server.port=8082",
+                "-Djb.consents.confirmation.enabled=false",
+                "-Didea.trust.all.projects=true",
+                "-Dide.show.tips.on.startup.default.value=false",
+            )
+        }
+    }
+    plugins {
+        robotServerPlugin()
+    }
+}
+
+val uiTest = tasks.register<Test>("uiTest") {
+    description = "Runs the intellij-ui-test-robot smoke test against an IDE started by runIdeForUiTests."
+    group = "verification"
+    testClassesDirs = sourceSets["uiTest"].output.classesDirs
+    classpath = sourceSets["uiTest"].runtimeClasspath
+    useJUnit()
 }
 
 kotlin {

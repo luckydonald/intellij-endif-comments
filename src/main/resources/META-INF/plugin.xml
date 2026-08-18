@@ -32,5 +32,12 @@
         <applicationConfigurable
                 instance="de.luckydonald.endifcomments.settings.EndCommentConfigurable"
                 displayName="Explicit Block Endings"/>
+
+        <notificationGroup
+                id="de.luckydonald.endifcomments.startup"
+                displayType="BALLOON"/>
+
+        <postStartupActivity
+                implementation="de.luckydonald.endifcomments.startup.StartupNotifier"/>
     </extensions>
 </idea-plugin>

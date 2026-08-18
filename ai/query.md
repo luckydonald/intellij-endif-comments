@@ -130,3 +130,54 @@
 
 ❯ I installed it in my IDE, but don't see any effect.
 
+❯ Check whether the background `./gradlew check buildPlugin` run has finished; if so, confirm green and report the EP-name fix + reinstall instructions to the user.
+
+❯ I still can't see:
+- No new settings menu under _Other Settings_ > _Explicit Block Endings_.
+- No listing in _Editor > Inspections_ or _Editor > Intentions_.
+- No effect in a `.py` file (both with and without actually typed-out `# end def`).
+- Add a "Hello IDE" Notification upon startup, as I'm getting paranoid it's simply not loading by now.
+
+❯ /plan I still can't see anything indicating it is actually working:
+- No new settings menu under _Other Settings_ > _Explicit Block Endings_.
+- No listing in _Editor > Inspections_ or _Editor > Intentions_.
+- No effect in a `.py` file (both with and without actually typed-out `# end def`).
+- Add a "Hello IDE" Notification upon startup, as I'm getting paranoid it's simply not loading by now.
+
+❯ Question answered.
+> <details><summary>
+>
+>> 1. Could you check Settings > Plugins, find "Explicit Block Endings", and tell me whether it shows as enabled/greyed-out/has an error icon or incompatibility warning next to it? This narrows down whether the IDE is silently refusing to load the plugin at all vs. loading it but nothing happening.
+>
+> (click to expand)
+>
+> </summary>
+>
+>> **Plugin state** (1/1) <kbd>Single Select</kbd><br>
+>> Could you check Settings > Plugins, find "Explicit Block Endings", and tell me whether it shows as enabled/greyed-out/has an error icon or incompatibility warning next to it? This narrows down whether the IDE is silently refusing to load the plugin at all vs. loading it but nothing happening.
+> - [ ] 1\. I'll check and report back
+>   - _Look at Settings > Plugins > Installed, find the plugin, note its toggle state and any warning/error text or icon shown._
+> - [ ] 2\. Skip, just fix blind
+>   - _Don't want to check right now — go ahead and fix the most likely bug (a plugin.xml compatibility-range issue I already found) without this extra info._
+> - [x] 3\. _Type something:_
+>   - > It is there, marked as enabled, v `0.1.0`.
+>
+> </details>
+>
+
+❯ Conversation compacted <kbd>manual</kbd>:
+> - [Result (`45667` chars, `44.8 KB`)](output/compact/001.a8f5771a-a7c9-4b9b-9f01-7c7bbdde870a/result.md)
+
+❯ Task Notification:
+> - Task `a5ad618f5304220c9` <kbd>completed</kbd>
+> - Tool `toolu_01KGv461DcZTHqbjsBo2nxsb`
+> - > Agent "Check patchPluginXml empty untilBuild behavior" finished
+> - [Query (`1803` chars, `1.76 KB`)](output/agents/011.a5ad618f5304220c9/prompt.md)
+> - [Answer (`2577` chars, `2.53 KB`)](output/agents/011.a5ad618f5304220c9/result.md)
+> - [Raw log (`230716` chars, `225 KB`)](/tmp/claude-1000/-home-user-git-luckydonald-intellij-endif-comments/8e03302c-e343-421b-b182-4b5795b0493f/tasks/a5ad618f5304220c9.output)
+> - `28` tools, `47112` tokens, `4.22248 s`
+
+❯ Check whether the Explore agent researching the empty until-build=\"\" plugin.xml issue has completed; if so, fold its finding into the debug plan file and then call ExitPlanMode.
+
+❯ Can you add an automated IDE UI test run? E.g. @ai/references/https/github.com/JetBrains/intellij-ui-test-robot/blob/a275b1d72deccff9ed69244dd052c96fede70fc4/README.md
+
