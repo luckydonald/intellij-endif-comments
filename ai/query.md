@@ -114,3 +114,5 @@
 
 ❯ I want you to also set up automated testing for it, and a github pipeline as well as a easy to run local instruction how to create/compile this & how to get it loaded e.g. into PyCharm (developer facing instructions).
 
+❯ The github pipeline shall both test on pushed commits & build on tagged releases.
+
