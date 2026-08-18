@@ -94,15 +94,18 @@ Reuse the GitHub Actions workflows already scaffolded by `intellij-platform-plug
 - **Test workflow** (`build.yml`-equivalent), triggered on every push/PR: run `./gradlew check` (compiles + unit tests from above) and `./gradlew verifyPlugin` (IntelliJ Plugin Verifier, catches API-compatibility issues against the target IDE versions declared in `build.gradle.kts`).
 - **Build workflow** (`release.yml`-equivalent), triggered on pushed version tags (e.g. `v*`): run `./gradlew buildPlugin` and upload the resulting ZIP from `build/distributions/` as a workflow/release artifact (a GitHub Release attached to that tag). Skip wiring up the template's Marketplace-publish step unless/until there's an actual public release to ship — tag-triggered builds just need to produce a downloadable artifact for now.
 
-## Developer-facing docs
+## Docs: root `README.md` (user-facing) + root `DEVELOPER.md` (build/dev instructions)
 
-Add a `README.md` (or a `docs/` page, matching however this repo already organizes such things) with:
+**`README.md`** — user-facing, describes the plugin rather than how to hack on it (audience is a Python dev deciding whether to install it and how to use it, not a total beginner, but not a build-tooling doc either):
 
-1. **Build**: `./gradlew buildPlugin` — output ZIP lands in `build/distributions/`.
-2. **Run in a sandbox IDE**: `./gradlew runIde` (launches a disposable PyCharm instance with the plugin pre-installed — the fastest loop while developing).
-3. **Install into a real PyCharm**: `Settings/Preferences > Plugins > ⚙️ > Install Plugin from Disk...` → pick the ZIP from `build/distributions/`.
-4. **Run tests**: `./gradlew check`.
-5. Any one-time setup (JDK version required by the Gradle plugin template, etc.) pulled from whatever `gradle.properties`/`build.gradle.kts` end up requiring.
+- What it does: shows the `# end if`/`# end with`/... block-end markers from the `code-style` skill's convention as virtual, IDE-only annotations — never written into the file — so nested Python blocks stay readable without hand-maintaining real comments.
+- What it looks like (a short before/after or screenshot-style example, reusing the skill's nested `if`/`with` sample).
+- What happens if you already have a real `# end if` comment: it's flagged as redundant with a quick-fix to remove it, since the plugin now shows it virtually.
+- Where the settings live: **Settings > Other Settings** → the plugin's page, with the "Active" checkbox to turn it on/off.
+- Installation: link to the JetBrains Marketplace listing once published; until then, point to `DEVELOPER.md` for building from source.
+- A line at the bottom linking to `DEVELOPER.md` for building/testing/contributing.
+
+**`DEVELOPER.md`** — the build/compile/load-into-PyCharm/test instructions from the previous section (build, run in sandbox IDE, install from disk into a real PyCharm, run tests, one-time setup). Referenced from `README.md`, not duplicated there.
 
 ## Verification
 

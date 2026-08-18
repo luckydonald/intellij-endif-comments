@@ -116,3 +116,5 @@
 
 ❯ The github pipeline shall both test on pushed commits & build on tagged releases.
 
+❯ Use root `DEVELOPER.md` for those instructions, referencing from the root `README.md` to it. Oh, write that project `README.md`, too. That one is user facing, so rather describe what it does, and where to find the settings, etc. without getting toooooo technical (though, we're a coding IDE plugin, so it's not Super-DAUs, lol).
+
