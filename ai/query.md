@@ -108,3 +108,7 @@
 > </details>
 >
 
+❯ More:
+- A _Fix all of this issue_ as it's usually common with those would be wonderful. I'm not sure if that's a "grouping" of the IDE seeing many of the same errors, or something which has to be implemented.
+- The settings (in <kbd>Settings</kbd> -> <kbd>Other Settings</kbd>) with (for now only) the general "Active" checkbox shall be in scope.
+
