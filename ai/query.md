@@ -118,3 +118,15 @@
 
 ❯ Use root `DEVELOPER.md` for those instructions, referencing from the root `README.md` to it. Oh, write that project `README.md`, too. That one is user facing, so rather describe what it does, and where to find the settings, etc. without getting toooooo technical (though, we're a coding IDE plugin, so it's not Super-DAUs, lol).
 
+❯ Check whether the background `./gradlew check` run has finished; if so, confirm it's green, then stop lingering gradle daemons/monitors and wrap up the intellij-endif-comments plugin implementation.
+
+❯ Task Notification:
+> - Task `b5mkm1913` <kbd>stopped</kbd>
+> - Tool ``
+> - > 3 background shell command task(s) from the previous session have no completion record. They may have been stopped (via the UI, Monitor timeout, or agent teardown — these leave no transcript marker), or they may have been running when the previous Claude Code process exited. They have been marked stopped. Task ids: b5mkm1913, byha8360n, bsv024dvi. Task ids in this notification beginning with "__orphan_summary" are internal scan markers, not tasks.
+> - [Query (`0` chars, `0 B`)](output/agents/010.b5mkm1913/prompt.md)
+> - [Answer (`0` chars, `0 B`)](output/agents/010.b5mkm1913/result.md)
+> - [Raw log (`0` chars, `616 B`)]()
+
+❯ I installed it in my IDE, but don't see any effect.
+

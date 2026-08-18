@@ -13,7 +13,7 @@
     <depends>com.intellij.modules.python</depends>
 
     <extensions defaultExtensionPoint="com.intellij">
-        <textEditorHighlightingPassFactory
+        <highlightingPassFactory
                 implementation="de.luckydonald.endifcomments.inlay.EndCommentPassFactory"/>
 
         <localInspection
