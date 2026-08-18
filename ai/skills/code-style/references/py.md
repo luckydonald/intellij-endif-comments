@@ -31,8 +31,10 @@ End every logical indentation block opened by one of the following statements wi
 - `while` → `# end while`
 - `def` / `async def` → `# end def`
 - `class` → `# end class`
+- `try` / `except` / `else` / `finally` → `# end try`
+- `match` / `case` → `# end match`, plus the last `case` block additionally gets its own `# end case`
 
-Use only the block type in the comment. Do not repeat a function or class name. Close an entire `if` / `elif` / `else` chain with one `# end if`.
+Use only the block type in the comment. Do not repeat a function or class name — `# end def foobar` and `# end class SomeClass` are wrong; `# end def` and `# end class` are right. Close an entire `if` / `elif` / `else` chain with one `# end if`, and an entire `try` / `except` / `else` / `finally` chain with one `# end try`. A `match` is the one exception that gets two comments where its last `case` ends: `# end case` for that `case`'s own block, then `# end match` for the whole `match` right below it — because each `case` body is its own indent scope nested inside `match`'s.
 
 ```python
 class Worker:
@@ -42,6 +44,13 @@ class Worker:
                 await connection.process()
             # end with
         # end if
+        match self.state:
+            case "starting":
+                self.prepare()
+            case _:
+                self.cleanup()
+            # end case
+        # end match
     # end def
 # end class
 ```
