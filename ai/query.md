@@ -185,3 +185,15 @@
 
 ❯ The UI tests are so *you* can confirm it!
 
+❯ Manual test:
+- [x] got notification
+- [x] got our settings
+- [x] seen the Inspections category in settings
+- [x] seeing the faked `# end def` 
+- [ ] seeing the _remove `# end …`_ (text irrelevant) issue
+- [ ] able to apply the quickfix
+
+Definitly progess, well done!
+
+- Also it's very difficult to distinguish the real deal from the new fake, can we style it differently? I.e. a faint strikethrough (.5 opacity on that line) or some background color?
+
