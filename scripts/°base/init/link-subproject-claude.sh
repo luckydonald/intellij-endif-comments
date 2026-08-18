@@ -7,14 +7,13 @@
 # monorepo-root counterparts, each <cwd>/.run/*.run.xml pointing at its
 # monorepo-root counterpart, an <cwd>/AGENTS.md -> CLAUDE.md symlink (moving
 # any pre-existing AGENTS.md into CLAUDE.md first, mirroring the root
-# layout), and seeds <cwd>/ai/query.md, <cwd>/CLAUDE.md, and each
-# ai/{errors,output/{agents,explore},plans}/.gitignore from templates when
-# they don't exist yet (copied, not symlinked, since query.md/CLAUDE.md are
-# meant to diverge per subproject, and the scratch-dir .gitignores are
-# simple enough that a deep symlink chain isn't worth the ELOOP warnings it
-# can trigger in `git add` on some setups). This lets Claude Code and Codex
-# find the shared hooks/perms/MCP config when launched from inside a
-# subfolder of a monorepo that has the `base` repo merged at its top level.
+# layout), an empty `.gitkeep` in each of the ai/{errors,output/{agents,
+# explore},plans} scratch dirs, and seeds <cwd>/ai/query.md and
+# <cwd>/CLAUDE.md from templates when they don't exist yet (copied, not
+# symlinked, since they're meant to diverge per subproject). This lets
+# Claude Code and Codex find the shared hooks/perms/MCP config when launched
+# from inside a subfolder of a monorepo that has the `base` repo merged at
+# its top level.
 #
 # Run once from inside the subfolder:
 #
@@ -163,15 +162,21 @@ link_run_configs() {
   done
 }
 
-# link_scratch_gitignores — seeds the throwaway-scratch `.gitignore` markers
-# (which just ignore everything but themselves and `.gitkeep`) into the ai/
-# scratch dirs, creating the dirs if needed. Plain files, not symlinks: a
-# symlink chain this many directories deep triggers spurious ELOOP warnings
-# from `git add` on some setups even though it resolves fine.
-link_scratch_gitignores() {
-  local rel
+# touch_scratch_gitkeeps — creates empty `.gitkeep` markers in the ai/
+# scratch dirs, creating the dirs if needed, so the otherwise-empty
+# directories exist in a fresh checkout.
+touch_scratch_gitkeeps() {
+  local rel target
   for rel in "ai/errors" "ai/output/agents" "ai/output/explore" "ai/plans"; do
-    copy_if_missing "$rel/.gitignore" "ai-scratch.gitignore"
+    target="$sub_dir/$rel/.gitkeep"
+    if [ -e "$target" ]; then
+      echo "$target already exists — leaving it alone."
+      continue
+    fi
+    mkdir -p "$sub_dir/$rel"
+    touch "$target"
+    echo "touched $target"
+    git -C "$sub_dir" add -- "$rel/.gitkeep"
   done
 }
 
@@ -219,7 +224,7 @@ link_shared "ai/references"
 link_shared "ai/skills"
 link_shared ".mcp.json"
 link_run_configs
-link_scratch_gitignores
+touch_scratch_gitkeeps
 copy_if_missing "ai/query.md" "query.md"
 copy_if_missing "CLAUDE.md" "CLAUDE.md"
 link_agents_claude

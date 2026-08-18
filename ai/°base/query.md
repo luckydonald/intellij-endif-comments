@@ -5195,3 +5195,5 @@ Possibly the folder name be `NNN.prompt_id`.
 ❯ linked /home/user/git/luckydonald/DockerTgBot/forked/ai/errors/.gitignore -> ../../../scripts/°base/init/templates/ai-scratch.gitignore
 warning: unable to access 'forked/ai/output/explore/.gitignore': Too many levels of symbolic links
 
+❯ Oh, the `.gitignore` were entirely a brain derp. I meant empty (hence `touch`) `.gitkeep` files.
+
