@@ -31,16 +31,25 @@ class RedundantEndCommentInspection : LocalInspectionTool() {
                 holder.registerProblem(
                     comment,
                     "Redundant explicit block-ending comment — the Explicit Block Endings plugin already shows this virtually",
-                    // LIKE_DEPRECATED strikes the line through, which reads as clearly distinct from
-                    // the plugin's own virtual inlay (plain comment-colored text) — LIKE_UNUSED_SYMBOL
-                    // looked almost identical to the inlay and made real vs. virtual hard to tell apart.
-                    ProblemHighlightType.LIKE_DEPRECATED,
+                    redundantHighlightType(),
                     RemoveEndCommentQuickFix,
                 )
             }
         }
     }
 }
+
+/**
+ * [EndCommentSettingsState.redundantHighlightType] stores a [ProblemHighlightType] constant name (see
+ * [de.luckydonald.endifcomments.settings.EndCommentConfigurable] for the presets offered) — falls back
+ * to the original strikethrough default if the stored value is invalid (e.g. from an older settings file).
+ */
+private fun redundantHighlightType(): ProblemHighlightType =
+    try {
+        ProblemHighlightType.valueOf(EndCommentSettingsState.getInstance().redundantHighlightType)
+    } catch (e: IllegalArgumentException) {
+        ProblemHighlightType.LIKE_DEPRECATED
+    }
 
 object RemoveEndCommentQuickFix : LocalQuickFix {
 

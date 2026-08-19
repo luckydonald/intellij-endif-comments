@@ -18,7 +18,7 @@ import com.jetbrains.python.psi.PyMatchStatement
  * flags, since once this plugin renders the marker virtually, no real one should be hand-maintained.
  */
 val END_COMMENT_LINE_REGEX: Regex =
-    Regex("""^#\s*end\s+(${ALL_END_KEYWORDS.joinToString("|")})\b.*$""")
+    Regex("""^#\s*end\s+(${ALL_END_KEYWORDS.joinToString("|")})\b.*$""", RegexOption.IGNORE_CASE)
 
 object EndCommentScanner {
 

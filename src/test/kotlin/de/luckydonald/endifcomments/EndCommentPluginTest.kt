@@ -45,6 +45,17 @@ class EndCommentPluginTest : BasePlatformTestCase() {
         assertTrue(highlights.any { it.description?.contains("Redundant explicit block-ending comment") == true })
     }
 
+    fun testMixedCaseEndCommentIsRecognizedCaseInsensitively() {
+        myFixture.enableInspections(RedundantEndCommentInspection())
+        myFixture.configureByFile("mixedCaseComment.py")
+
+        // The virtual "# end if" is suppressed even though the real comment is mixed-case.
+        assertTrue(visibleMarkerTexts().none { it == "# end if" })
+
+        val highlights = myFixture.doHighlighting()
+        assertTrue(highlights.any { it.description?.contains("Redundant explicit block-ending comment") == true })
+    }
+
     fun testWrongFormEndCommentIsAlsoFlagged() {
         myFixture.enableInspections(RedundantEndCommentInspection())
         myFixture.configureByFile("wrongFormComment.py")
@@ -64,6 +75,26 @@ class EndCommentPluginTest : BasePlatformTestCase() {
             assertTrue(EndCommentSettingsState.getInstance().isActive)
         } finally {
             settings.isActive = original
+        }
+    }
+
+    fun testStyleSettingsPersist() {
+        val settings = EndCommentSettingsState.getInstance()
+        val originalItalic = settings.inlayItalic
+        val originalColorSource = settings.inlayColorSource
+        val originalHighlightType = settings.redundantHighlightType
+        try {
+            settings.inlayItalic = true
+            settings.inlayColorSource = "CUSTOM"
+            settings.redundantHighlightType = "WEAK_WARNING"
+
+            assertTrue(EndCommentSettingsState.getInstance().inlayItalic)
+            assertEquals("CUSTOM", EndCommentSettingsState.getInstance().inlayColorSource)
+            assertEquals("WEAK_WARNING", EndCommentSettingsState.getInstance().redundantHighlightType)
+        } finally {
+            settings.inlayItalic = originalItalic
+            settings.inlayColorSource = originalColorSource
+            settings.redundantHighlightType = originalHighlightType
         }
     }
 
