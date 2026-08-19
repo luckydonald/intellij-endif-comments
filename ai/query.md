@@ -199,3 +199,11 @@ Definitly progess, well done!
 
 ❯ First finish the current task and commit that, then tackle this new one: When starting an `if …:` and then hitting enter, the IDE goes into a new line with added indent for continuing to write in that if body. With the new `# end if` displayed correctly in the line below. However, that only for a few seconds, as then the `# end if` and my line swap place, moving my line below all `# end …` blocks at that place. Add a typing test, writing a class with a function, containing recursively every supported type.
 
+❯ Task Notification:
+> - Task `bdhrsv345` <kbd>killed</kbd>
+> - Tool `toolu_01YDkuxmSLuK3js69CK891iL`
+> - > Monitor "Wait for rebuild after EP name fix to finish" stopped
+> - [Query (`62` chars, `62 B`)](output/agents/012.bdhrsv345/prompt.md)
+> - [Answer (`10` chars, `10 B`)](output/agents/012.bdhrsv345/result.md)
+> - [Raw log (`10` chars, `10 B`)](/tmp/claude-1000/-home-user-git-luckydonald-intellij-endif-comments/8e03302c-e343-421b-b182-4b5795b0493f/tasks/bdhrsv345.output)
+
