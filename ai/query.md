@@ -207,3 +207,118 @@ Definitly progess, well done!
 > - [Answer (`10` chars, `10 B`)](output/agents/012.bdhrsv345/result.md)
 > - [Raw log (`10` chars, `10 B`)](/tmp/claude-1000/-home-user-git-luckydonald-intellij-endif-comments/8e03302c-e343-421b-b182-4b5795b0493f/tasks/bdhrsv345.output)
 
+❯ /plan the style of detected existing and fake-inserted `# end …` should be changable in the settings.
+
+❯ Task Notification:
+> - Task `a33e2e75ac0b91cc8` <kbd>completed</kbd>
+> - Tool `toolu_01ECLGPGsYTK9vB2pvPFnZY9`
+> - > Agent "Explore end-comment style and settings code" finished
+> - [Query (`2643` chars, `2.58 KB`)](output/agents/013.a33e2e75ac0b91cc8/prompt.md)
+> - [Answer (`7723` chars, `7.58 KB`)](output/agents/013.a33e2e75ac0b91cc8/result.md)
+> - [Raw log (`159506` chars, `156 KB`)](/tmp/claude-1000/-home-user-git-luckydonald-intellij-endif-comments/4658c20b-dbb8-4e54-9cc1-44a950e26e5a/tasks/a33e2e75ac0b91cc8.output)
+> - `16` tools, `35344` tokens, `0.810333 s`
+
+❯ Question answered.
+> <details><summary>
+>
+>> 1. How should users configure the end-comment style?
+>> 2. Which style variants should be supported presets (or documented as the built-in options)?
+>> 3. Should the detection regex become permissive (accept any of the known style variants regardless of the active setting) or strict (only match the currently configured style)?
+>
+> (click to expand)
+>
+> </summary>
+>
+>> **Config UI** (1/3) <kbd>Single Select</kbd><br>
+>> How should users configure the end-comment style?
+> - [ ] 1\. Preset dropdown (Recommended)
+>   - _A dropdown with a handful of fixed style presets, e.g. '# end if', '#end if', '# end: if', '# endif'. Simple, safe, no invalid regex risk._
+> - [ ] 2\. Free-text template
+>   - _A text field where the user types a template like '# end {keyword}' with a {keyword} placeholder. Fully flexible but riskier (user could break the format) and needs robust parsing/validation._
+> - [ ] 3\. Both
+>   - _Preset dropdown for common cases plus a 'Custom' option that reveals a template text field._
+> - [x] 4\. _Type something:_
+>   - > No, this is about font/color/strikethrough/italic/bold/etc. Regarding the text formatting, shall remain fixed (not user settable) as it is now. However, new: actually the detection shall be case insenstitive. So e.g. match both `# end if` and `# EnD clASS foBaR 'n stuff`.
+>
+>> **Style presets** (2/3) <kbd>Multi Select</kbd><br>
+>> Which style variants should be supported presets (or documented as the built-in options)?
+> - [ ] 1\. # end if (current default)
+>   - _Hash, space, 'end', space, keyword — today's only format._
+> - [ ] 2\. #end if
+>   - _No space between # and end._
+> - [ ] 3\. # end: if
+>   - _Colon after 'end'._
+> - [x] 4\. # endif / # END if <sup><sub><kbd>#1</kbd></sub></sup>
+>   - _Keyword glued onto 'end' (# endif), or uppercase END keyword (# END if) — pick whichever variant(s) you want, can clarify in free text._
+> - [x] 5\. _Type something:_
+>   - > Does not apply
+>
+>> **Detection scope** (3/3) <kbd>Single Select</kbd><br>
+>> Should the detection regex become permissive (accept any of the known style variants regardless of the active setting) or strict (only match the currently configured style)?
+> - [ ] 1\. Permissive (Recommended)
+>   - _Regex always accepts all known variants for detection/redundancy-check, so switching styles later or mixed codebases still work; only the *generation* (inlay/fake comment) uses the configured style._
+> - [ ] 2\. Strict
+>   - _Regex only matches the currently configured style; comments in another style are treated as ordinary comments, not recognized end-markers._
+> - [x] 3\. _Type something:_
+>   - > Does not apply.
+>
+> </details>
+>
+
+❯ Question answered.
+> <details><summary>
+>
+>> 1. For the fake-inserted virtual inlay comments (EndCommentInlayRenderer), which visual properties should be user-configurable?
+>> 2. For detected real (hand-written) redundant end-comments (RedundantEndCommentInspection), which highlight style should be selectable?
+>
+> (click to expand)
+>
+> </summary>
+>
+>> **Inlay style** (1/2) <kbd>Multi Select</kbd><br>
+>> For the fake-inserted virtual inlay comments (EndCommentInlayRenderer), which visual properties should be user-configurable?
+> - [x] 1\. Italic toggle <sup><sub><kbd>#1</kbd></sub></sup>
+>   - _Render the virtual '# end ...' text in italic instead of plain, to visually distinguish it from real code/comments._
+> - [x] 2\. Bold toggle <sup><sub><kbd>#2</kbd></sub></sup>
+>   - _Render the virtual text in bold._
+> - [x] 3\. Color source <sup><sub><kbd>#3</kbd></sub></sup>
+>   - _Let the user pick which editor color-scheme attribute key to use for the text color (e.g. line comment color vs. a dedicated custom color), instead of always using LINE_COMMENT._
+> - [x] 4\. _Type something:_
+>   - > "Strikethrough, underline, etc."
+>
+>> **Detected style** (2/2) <kbd>Single Select</kbd><br>
+>> For detected real (hand-written) redundant end-comments (RedundantEndCommentInspection), which highlight style should be selectable?
+> - [x] 1\. Preset dropdown of ProblemHighlightTypes (Recommended)
+>   - _Let the user pick among IntelliJ's built-in highlight types: strikethrough (current, LIKE_DEPRECATED), grayed-out (LIKE_UNUSED_SYMBOL), warning underline (GENERIC_ERROR_OR_WARNING), weak warning._
+> - [ ] 2\. Keep fixed, only fix case-insensitivity
+>   - _Leave the redundant-comment highlight style as-is (strikethrough); only add the case-insensitive detection fix from your last message._
+> - [ ] 3\. _Type something._
+>
+> </details>
+>
+
+❯ Write tests for the settings (if missing):
+- _Activate_
+  0. Check the features are available in our test python file (virtual lines, inspections, fixes).
+  1. open our settings
+  2. _Activate_ is turned on currently (= per default)
+  3. disable _Activate_
+  4. <kbd>OK</kbd>
+  5. Check the features are not available in our test python file (virtual lines, inspections, fixes).
+  6. open our settings again
+  7. enable _Activate_
+  8. <kbd>OK</kbd>
+  9. Check the features are available again in our test python file (virtual lines, inspections, fixes).
+- _Virtual End-Comment Style_
+  - test for each option, that it indeed changes the preview below accordingly.
+  - Maybe a each-combination-matrix can be calculated & used.
+  - Color picker enabled & works if _Custom Color_ is selected, otherwise disabled & click does nothing.
+  - For custom color test at least 2
+- _Redundant Comment Warning Style_
+  - test each dropdown action
+  - Check that the dropdown value is reflected in the preview
+- for all of those settings also add tests:
+  - check the <kbd>Apply<kbd> button comes available upon change
+  - check settings file being updated in repo with <kbd>OK</kbd> button.
+  - test that a change with the <kbd>Cancel</kbd> button is not persisted/applied/saved.
+
