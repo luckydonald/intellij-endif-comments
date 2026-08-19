@@ -11,12 +11,13 @@ import java.awt.Rectangle
 
 /**
  * Paints one virtual `# end <keyword>` line, indented to [indentColumn] columns, styled like a real
- * line comment. This never touches the file — it only occupies vertical space the editor reserves
- * for the block inlay it renders into.
+ * line comment plus the user's configured [style]. This never touches the file — it only occupies
+ * vertical space the editor reserves for the block inlay it renders into.
  */
 class EndCommentInlayRenderer(
     val text: String,
     val indentColumn: Int,
+    val style: EndCommentInlayStyle = EndCommentInlayStyle(),
 ) : EditorCustomElementRenderer {
 
     override fun calcWidthInPixels(inlay: Inlay<*>): Int {
@@ -30,12 +31,12 @@ class EndCommentInlayRenderer(
         val editor = inlay.editor
         val scheme = EditorColorsManager.getInstance().globalScheme
         val attributes = scheme.getAttributes(DefaultLanguageHighlighterColors.LINE_COMMENT)
-        g.color = attributes.foregroundColor ?: scheme.defaultForeground
-        g.font = scheme.getFont(EditorFontType.PLAIN)
+        val fallbackColor = attributes.foregroundColor ?: scheme.defaultForeground
+        val baseFont = scheme.getFont(EditorFontType.PLAIN)
 
         val spaceWidth = EditorUtil.getPlainSpaceWidth(editor)
         val x = targetRegion.x + spaceWidth * indentColumn
         val y = targetRegion.y + editor.ascent
-        g.drawString(text, x, y)
+        paintStyledText(g, text, x, y, baseFont, fallbackColor, style)
     }
 }

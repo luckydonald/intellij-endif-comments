@@ -45,13 +45,14 @@ class EndCommentPass(
 
         editor.getUserData(INLAYS_KEY)?.forEach { it.dispose() }
 
+        val style = EndCommentInlayStyle.fromSettings(EndCommentSettingsState.getInstance())
         val newInlays: List<Inlay<*>> = computedMarkers.mapNotNull { marker ->
             editor.inlayModel.addBlockElement(
                 marker.anchorOffset,
                 /* relatesToPrecedingText = */ true,
                 /* showAbove = */ false,
                 /* priority = */ 0,
-                EndCommentInlayRenderer(marker.text, marker.indentColumn),
+                EndCommentInlayRenderer(marker.text, marker.indentColumn, style),
             )
         }
 
