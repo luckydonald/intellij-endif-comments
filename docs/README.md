@@ -205,6 +205,7 @@ Notes:
 
 ### All code for c) as a single copy pastable one:
 ```shell
+# git init && git branch -M mane
 git remote add empty https://luckydonald@github.com/EmptyAAS/empty.git
 git remote add base https://luckydonald@github.com/luckydonald/base.git
 git fetch empty init
@@ -233,7 +234,7 @@ else
   fi
 fi
 pre-commit install
-[ "$(git config user.name)" = "Lucky Lucy" ] || printf '\033[31mERROR: git user.name is "%s" is not "Lucky Lucy" — fix it if you are me, and I forgot.\033[0m\nhttps://github.com/luckydonald/base/blob/base/README.md#fix-user\n' "$(git config user.name)"
+[ "$(git config user.name)" = "Lucky Lucy" ] || printf '\033[31mERROR: git user.name is "%s" is not "Lucky Lucy" — fix it if you are me, and I forgot.\033[0m\nhttps://github.com/luckydonald/base/blob/base/README.md#fix-user\n' "$(git config user.name)" && printf '\033[32mOK: git user.name "%s" OK.\033[0m\nhttps://github.com/luckydonald/base/blob/base/README.md#fix-user\n' "$(git config user.name)"
 ```
 
 #### Fix user
