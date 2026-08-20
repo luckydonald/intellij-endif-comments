@@ -5197,3 +5197,5 @@ warning: unable to access 'forked/ai/output/explore/.gitignore': Too many levels
 
 ❯ Oh, the `.gitignore` were entirely a brain derp. I meant empty (hence `touch`) `.gitkeep` files.
 
+❯ fix the tag_backup script deleting any tag, not only `bak/*` ones.
+

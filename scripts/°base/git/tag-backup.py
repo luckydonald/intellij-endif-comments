@@ -47,7 +47,7 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
 
 def parent_tags(tag: str) -> list[str]:
     result = subprocess.run(
-        ["git", "tag", "--merged", tag],
+        ["git", "tag", "--list", "bak/*", "--merged", tag],
         check=True,
         text=True,
         capture_output=True,
