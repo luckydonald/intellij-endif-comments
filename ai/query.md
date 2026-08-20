@@ -322,3 +322,5 @@ Definitly progess, well done!
   - check settings file being updated in repo with <kbd>OK</kbd> button.
   - test that a change with the <kbd>Cancel</kbd> button is not persisted/applied/saved.
 
+❯ /plan I want to deploy this. Therefore I need to polish everything up.
+
