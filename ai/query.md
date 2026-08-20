@@ -344,3 +344,45 @@ Definitly progess, well done!
 > </details>
 >
 
+❯ Question answered.
+> <details><summary>
+>
+>> 1. License for Marketplace listing?
+>> 2. Startup balloon notification ("plugin is active") on every project open — keep or remove for public release?
+>> 3. Plugin icon for Marketplace — do you have one, or should I generate a placeholder?
+>
+> (click to expand)
+>
+> </summary>
+>
+>> **License** (1/3) <kbd>Single Select</kbd><br>
+>> License for Marketplace listing?
+> - [ ] 1\. MIT (Recommended)
+>   - _Permissive, simple, common for small IntelliJ plugins_
+> - [ ] 2\. Apache-2.0
+>   - _Permissive, adds patent grant, more verbose_
+> - [ ] 3\. I'll pick later
+>   - _Skip license file for now, flag as blocker in plan_
+> - [x] 4\. _Type something:_
+>   - > Keep open sauce
+>
+>> **Notification** (2/3) <kbd>Single Select</kbd><br>
+>> Startup balloon notification ("plugin is active") on every project open — keep or remove for public release?
+> - [x] 1\. Remove (Recommended)
+>   - _Noisy for real users; was only a dev-verification aid per plan 002_
+> - [ ] 2\. Keep
+>   - _Leave as-is_
+> - [ ] 3\. _Type something._
+>
+>> **Icon** (3/3) <kbd>Single Select</kbd><br>
+>> Plugin icon for Marketplace — do you have one, or should I generate a placeholder?
+> - [ ] 1\. Generate simple placeholder
+>   - _Add a basic pluginIcon.svg so Marketplace requirement is met_
+> - [ ] 2\. I'll provide one
+>   - _Skip icon work, you'll add src/main/resources/META-INF/pluginIcon.svg yourself_
+> - [x] 3\. _Type something:_
+>   - > Yes, build me an SVG icon displaying `# end` in a cool way.
+>
+> </details>
+>
+
