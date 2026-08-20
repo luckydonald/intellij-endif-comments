@@ -324,3 +324,23 @@ Definitly progess, well done!
 
 ❯ /plan I want to deploy this. Therefore I need to polish everything up.
 
+❯ Question answered.
+> <details><summary>
+>
+>> 1. Deploy where?
+>
+> (click to expand)
+>
+> </summary>
+>
+>> **Target** (1/1) <kbd>Single Select</kbd><br>
+>> Deploy where?
+> - [x] 1\. JetBrains Marketplace (Recommended)
+>   - _Public plugin listing, needs plugin.xml metadata, license, marketplace token, CI release workflow_
+> - [ ] 2\. Internal/private only
+>   - _Build signed zip, distribute manually or via private repo, no marketplace review_
+> - [ ] 3\. _Type something._
+>
+> </details>
+>
+
