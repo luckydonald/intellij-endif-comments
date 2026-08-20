@@ -454,7 +454,7 @@ Definitly progess, well done!
 >> Pink/violet recolor — which layout?
 > - [x] 1\. Badge, muted # (Recommended)
 >   - _Deep violet badge, dim # + bright pink end, monospace, corner bracket accent_
->   - ```
+>   - .
 >     <svg width="120" height="120" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
 >       <rect width="40" height="40" rx="8" fill="#241B34"/>
 >       <path d="M8 30 L8 34 L12 34" stroke="#5B4A7A" stroke-width="2" fill="none" stroke-linecap="round"/>
@@ -462,10 +462,10 @@ Definitly progess, well done!
 >         <tspan fill="#8A76B0">#</tspan><tspan fill="#F057C4" dx="1">end</tspan>
 >       </text>
 >     </svg>
->     ```
+>
 > - [ ] 2\. Two-line comment block
 >   - _# end if / # end def stacked small, feels like a real code snippet_
->   - ```
+>   - .
 >     <svg width="120" height="120" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
 >       <rect width="40" height="40" rx="8" fill="#241B34"/>
 >       <text x="6" y="18" font-family="JetBrains Mono, Fira Code, monospace" font-size="6">
@@ -476,10 +476,10 @@ Definitly progess, well done!
 >       </text>
 >       <rect x="5" y="9" width="30" height="22" rx="3" fill="none" stroke="#5B4A7A" stroke-width="1"/>
 >     </svg>
->     ```
+>
 > - [ ] 3\. Bracket-close mark
 >   - _Big violet-to-pink chevron with # end small underneath, more abstract/logo-like_
->   - ```text
+>   - .
 >     <svg width="120" height="120" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
 >       <defs>
 >         <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
@@ -493,7 +493,7 @@ Definitly progess, well done!
 >         <tspan fill="#8A76B0">#</tspan><tspan fill="#F057C4">end</tspan>
 >       </text>
 >     </svg>
->     ```
+>
 > - [ ] 4\. _Notes: Add notes on this design._
 >
 > </details>
