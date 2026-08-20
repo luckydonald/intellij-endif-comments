@@ -386,3 +386,5 @@ Definitly progess, well done!
 > </details>
 >
 
+❯ No licence must be to keep it open when doing things with it.
+
