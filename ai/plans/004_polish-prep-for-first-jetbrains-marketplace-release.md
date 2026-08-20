@@ -45,22 +45,27 @@ User decisions from clarifying questions:
 - Reference it from `README.md` if the README has a license section already (check first; add one
   short line if not) and declare it in `plugin.xml`/Marketplace listing metadata as GPL-3.0.
 
-### 3. Plugin icon / logo design
+### 3. Plugin icon / logo — finalized design
 
-Concept: a rounded-square badge (matches JetBrains Marketplace icon conventions), dark
-code-editor-navy background, `# end` set in a monospace font — `#` dimmed/muted like a real code
-comment, `end` in a bright accent (teal/green, evoking "valid/closed block"), optionally with a
-thin corner-bracket motif (`⌐` / `_|`) hinting at a block-closing marker without adding clutter.
+User picked: rounded-square deep-violet badge, `#` dimmed muted-violet, `end` in bright pink,
+small corner-bracket accent, monospace. Confirmed SVG (40x40 viewBox):
 
-- Light variant: `src/main/resources/META-INF/pluginIcon.svg` — 40x40 viewBox, navy/dark badge
-  background (reads fine on light IDE theme).
-- Dark variant: `src/main/resources/META-INF/pluginIcon_dark.svg` — same layout, lighter
-  badge background so it doesn't disappear against a dark Settings/Marketplace panel.
-- Build both as plain SVG shapes + `<text>` (monospace font-family stack: `"JetBrains Mono", "Fira Code", monospace`)
-  rather than a raster/embedded font, so they stay crisp at Marketplace thumbnail sizes (small,
-  ~40x40) and in the Settings plugin list (~16x16).
-- I'll draft the SVG markup directly (rounded-rect badge + two `<text>`/`<tspan>` runs for `#` and
-  `end` in different colors) and show it to you before finalizing colors/layout.
+```svg
+<svg width="40" height="40" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+  <rect width="40" height="40" rx="8" fill="#241B34"/>
+  <path d="M8 30 L8 34 L12 34" stroke="#5B4A7A" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <text x="20" y="24" font-family="JetBrains Mono, Fira Code, monospace" font-size="13" text-anchor="middle">
+    <tspan fill="#8A76B0">#</tspan><tspan fill="#F057C4" dx="1">end</tspan>
+  </text>
+</svg>
+```
+
+- `src/main/resources/META-INF/pluginIcon.svg` — the SVG above.
+- `src/main/resources/META-INF/pluginIcon_dark.svg` — same layout, badge fill lightened
+  (e.g. `#3A2C52`) so it doesn't disappear against a dark Settings/Marketplace panel; text colors
+  unchanged (already bright enough on both).
+- Plain SVG shapes + `<text>`, no embedded font/raster, so it stays crisp at Marketplace thumbnail
+  size and in the Settings plugin list (~16x16).
 
 ### 4. Release metadata
 - `gradle.properties`: add `pluginVersion = 1.0.0` (first public release; explicit instead of the
