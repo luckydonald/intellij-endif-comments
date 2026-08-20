@@ -41,9 +41,9 @@ User decisions from clarifying questions:
   "extension silently didn't register" regression this test exists for.
 
 ### 2. Add LICENSE
-- Add `LICENSE` (MIT), copyright holder "Lucky Lucy" (git user), year 2026.
+- Add `LICENSE` (GPLv3 full text), copyright holder "Lucky Lucy" (git user), year 2026.
 - Reference it from `README.md` if the README has a license section already (check first; add one
-  short line if not).
+  short line if not) and declare it in `plugin.xml`/Marketplace listing metadata as GPL-3.0.
 
 ### 3. Plugin icon
 - Add `src/main/resources/META-INF/pluginIcon.svg`: a 40x40 icon rendering `# end` in a compact,
