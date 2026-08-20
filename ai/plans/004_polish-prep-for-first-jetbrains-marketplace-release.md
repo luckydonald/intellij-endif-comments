@@ -22,7 +22,8 @@ Blockers found (survey via Explore agent + direct file reads):
    confirmed: remove it.
 
 User decisions from clarifying questions:
-- License: open source, permissive → **MIT**.
+- License: open source, copyleft — derivatives/forks must stay open → **GPLv3** (not MIT: user
+  wants downstream use to keep the code open, which permissive licenses don't enforce).
 - Startup notification → **remove**.
 - Icon → generate an SVG showing `# end` in a stylized way.
 
