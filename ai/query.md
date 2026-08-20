@@ -189,7 +189,7 @@
 - [x] got notification
 - [x] got our settings
 - [x] seen the Inspections category in settings
-- [x] seeing the faked `# end def` 
+- [x] seeing the faked `# end def`
 - [ ] seeing the _remove `# end …`_ (text irrelevant) issue
 - [ ] able to apply the quickfix
 
@@ -401,7 +401,7 @@ Definitly progess, well done!
 >> Which icon style for the plugin logo?
 > - [ ] 1\. Badge, muted # (Recommended)
 >   - _Rounded navy badge, dim # + bright teal end, monospace, corner bracket accent_
->   - ```
+>   - .
 >     <svg width="120" height="120" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
 >       <rect width="40" height="40" rx="8" fill="#1E2530"/>
 >       <path d="M8 30 L8 34 L12 34" stroke="#3D4757" stroke-width="2" fill="none" stroke-linecap="round"/>
@@ -409,10 +409,10 @@ Definitly progess, well done!
 >         <tspan fill="#5C6B7A">#</tspan><tspan fill="#4FD6A8" dx="1">end</tspan>
 >       </text>
 >     </svg>
->     ```
+>
 > - [ ] 2\. Two-line comment block
 >   - _# end if / # end def stacked small, feels like a real code snippet_
->   - ```
+>   - .
 >     <svg width="120" height="120" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
 >       <rect width="40" height="40" rx="8" fill="#1E2530"/>
 >       <text x="6" y="18" font-family="JetBrains Mono, Fira Code, monospace" font-size="6" fill="#5C6B7A">
@@ -423,10 +423,10 @@ Definitly progess, well done!
 >       </text>
 >       <rect x="5" y="9" width="30" height="22" rx="3" fill="none" stroke="#3D4757" stroke-width="1"/>
 >     </svg>
->     ```
+>
 > - [ ] 3\. Bracket-close mark
 >   - _Big stylized closing bracket/chevron with # end small underneath, more abstract/logo-like_
->   - ```text
+>   - .
 >     <svg width="120" height="120" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
 >       <rect width="40" height="40" rx="8" fill="#1E2530"/>
 >       <path d="M14 8 L26 20 L14 32" stroke="#4FD6A8" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
@@ -434,9 +434,67 @@ Definitly progess, well done!
 >         <tspan fill="#5C6B7A">#</tspan><tspan fill="#4FD6A8">end</tspan>
 >       </text>
 >     </svg>
->     ```
+>
 > - [x] 4\. _Notes:_
 >   - > I think I want a pink / violet theme for it
+>
+> </details>
+>
+
+❯ Question answered.
+> <details><summary>
+>
+>> 1. Pink/violet recolor — which layout?
+>
+> (click to expand)
+>
+> </summary>
+>
+>> **Icon style** (1/1) <kbd>Single Select</kbd><br>
+>> Pink/violet recolor — which layout?
+> - [x] 1\. Badge, muted # (Recommended)
+>   - _Deep violet badge, dim # + bright pink end, monospace, corner bracket accent_
+>   - ```
+>     <svg width="120" height="120" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+>       <rect width="40" height="40" rx="8" fill="#241B34"/>
+>       <path d="M8 30 L8 34 L12 34" stroke="#5B4A7A" stroke-width="2" fill="none" stroke-linecap="round"/>
+>       <text x="20" y="24" font-family="JetBrains Mono, Fira Code, monospace" font-size="13" text-anchor="middle">
+>         <tspan fill="#8A76B0">#</tspan><tspan fill="#F057C4" dx="1">end</tspan>
+>       </text>
+>     </svg>
+>     ```
+> - [ ] 2\. Two-line comment block
+>   - _# end if / # end def stacked small, feels like a real code snippet_
+>   - ```
+>     <svg width="120" height="120" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+>       <rect width="40" height="40" rx="8" fill="#241B34"/>
+>       <text x="6" y="18" font-family="JetBrains Mono, Fira Code, monospace" font-size="6">
+>         <tspan fill="#8A76B0">#</tspan><tspan fill="#F057C4">end if</tspan>
+>       </text>
+>       <text x="6" y="28" font-family="JetBrains Mono, Fira Code, monospace" font-size="6">
+>         <tspan fill="#8A76B0">#</tspan><tspan fill="#F057C4">end def</tspan>
+>       </text>
+>       <rect x="5" y="9" width="30" height="22" rx="3" fill="none" stroke="#5B4A7A" stroke-width="1"/>
+>     </svg>
+>     ```
+> - [ ] 3\. Bracket-close mark
+>   - _Big violet-to-pink chevron with # end small underneath, more abstract/logo-like_
+>   - ```text
+>     <svg width="120" height="120" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+>       <defs>
+>         <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+>           <stop offset="0" stop-color="#8A5CF6"/>
+>           <stop offset="1" stop-color="#F057C4"/>
+>         </linearGradient>
+>       </defs>
+>       <rect width="40" height="40" rx="8" fill="#241B34"/>
+>       <path d="M14 8 L26 20 L14 32" stroke="url(#g)" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+>       <text x="20" y="38" font-family="JetBrains Mono, Fira Code, monospace" font-size="7" text-anchor="middle">
+>         <tspan fill="#8A76B0">#</tspan><tspan fill="#F057C4">end</tspan>
+>       </text>
+>     </svg>
+>     ```
+> - [ ] 4\. _Notes: Add notes on this design._
 >
 > </details>
 >
