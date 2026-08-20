@@ -388,3 +388,56 @@ Definitly progess, well done!
 
 ❯ No licence must be to keep it open when doing things with it.
 
+❯ Question answered.
+> <details><summary>
+>
+>> 1. Which icon style for the plugin logo?
+>
+> (click to expand)
+>
+> </summary>
+>
+>> **Icon style** (1/1) <kbd>Single Select</kbd><br>
+>> Which icon style for the plugin logo?
+> - [ ] 1\. Badge, muted # (Recommended)
+>   - _Rounded navy badge, dim # + bright teal end, monospace, corner bracket accent_
+>   - ```
+>     <svg width="120" height="120" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+>       <rect width="40" height="40" rx="8" fill="#1E2530"/>
+>       <path d="M8 30 L8 34 L12 34" stroke="#3D4757" stroke-width="2" fill="none" stroke-linecap="round"/>
+>       <text x="20" y="24" font-family="JetBrains Mono, Fira Code, monospace" font-size="13" text-anchor="middle">
+>         <tspan fill="#5C6B7A">#</tspan><tspan fill="#4FD6A8" dx="1">end</tspan>
+>       </text>
+>     </svg>
+>     ```
+> - [ ] 2\. Two-line comment block
+>   - _# end if / # end def stacked small, feels like a real code snippet_
+>   - ```
+>     <svg width="120" height="120" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+>       <rect width="40" height="40" rx="8" fill="#1E2530"/>
+>       <text x="6" y="18" font-family="JetBrains Mono, Fira Code, monospace" font-size="6" fill="#5C6B7A">
+>         <tspan fill="#5C6B7A">#</tspan><tspan fill="#4FD6A8">end if</tspan>
+>       </text>
+>       <text x="6" y="28" font-family="JetBrains Mono, Fira Code, monospace" font-size="6">
+>         <tspan fill="#5C6B7A">#</tspan><tspan fill="#4FD6A8">end def</tspan>
+>       </text>
+>       <rect x="5" y="9" width="30" height="22" rx="3" fill="none" stroke="#3D4757" stroke-width="1"/>
+>     </svg>
+>     ```
+> - [ ] 3\. Bracket-close mark
+>   - _Big stylized closing bracket/chevron with # end small underneath, more abstract/logo-like_
+>   - ```text
+>     <svg width="120" height="120" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+>       <rect width="40" height="40" rx="8" fill="#1E2530"/>
+>       <path d="M14 8 L26 20 L14 32" stroke="#4FD6A8" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+>       <text x="20" y="38" font-family="JetBrains Mono, Fira Code, monospace" font-size="7" text-anchor="middle">
+>         <tspan fill="#5C6B7A">#</tspan><tspan fill="#4FD6A8">end</tspan>
+>       </text>
+>     </svg>
+>     ```
+> - [x] 4\. _Notes:_
+>   - > I think I want a pink / violet theme for it
+>
+> </details>
+>
+
