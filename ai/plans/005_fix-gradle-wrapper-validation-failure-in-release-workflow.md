@@ -22,41 +22,29 @@ official Gradle 9.7.0 wrapper jar downloaded from `raw.githubusercontent.com/gra
 (`sha256: 7a9ce74cff467ca1bf60a4fcd9f05185acceda4d0f382434d393e17864262c5d`) — so the jar itself
 is fine; it's only mis-tracked in git.
 
-Fix: stop tracking `gradle/wrapper/gradle-wrapper.jar` via LFS and store it as a normal git
-blob, which is the standard/expected setup for Gradle wrapper jars (small, trusted, needed
-verbatim by the wrapper-validation action and by `gradlew` bootstrap itself — no LFS smudge
-step exists at that point in CI anyway).
+Fix (per user preference): keep `gradle-wrapper.jar` tracked via LFS as-is, and instead make
+`actions/checkout@v4` in `release.yml` actually fetch LFS content, so CI checks out the real jar
+bytes instead of the pointer text.
 
 ## Changes
 
-1. **`.gitattributes`** — add an override line after the existing `*.jar filter=lfs ...` rule
-   (line 101) that un-LFSes this specific path (later patterns win in gitattributes):
-   ```
-   gradle/wrapper/gradle-wrapper.jar filter= diff= merge= text=
-   ```
-   Empty values explicitly clear the inherited LFS attributes for this one file, leaving all
-   other `*.jar` files under LFS as before.
+**`.github/workflows/release.yml`** — add `lfs: true` to the `actions/checkout@v4` step's `with:`:
 
-2. **Re-track the file as a plain blob:**
-   ```
-   git rm --cached gradle/wrapper/gradle-wrapper.jar
-   git add gradle/wrapper/gradle-wrapper.jar
-   ```
-   With the attribute override now in place, `git add` will store the literal jar bytes instead
-   of an LFS pointer.
+```yaml
+- uses: actions/checkout@v4
+  with:
+    lfs: true
+```
 
-3. Commit both changes together.
-
-No changes needed to `release.yml` or the jar's own bytes — only how git tracks the file.
+No changes to `.gitattributes` or the jar's own bytes — only the checkout step.
 
 ## Verification
 
-- `git cat-file -p HEAD:gradle/wrapper/gradle-wrapper.jar | sha256sum` (after committing) should
-  print `7a9ce74cff467ca1bf60a4fcd9f05185acceda4d0f382434d393e17864262c5d`, not the pointer-file
-  checksum.
-- `git cat-file -s HEAD:gradle/wrapper/gradle-wrapper.jar` should report `47505` bytes, not ~130.
-- `git check-attr -a gradle/wrapper/gradle-wrapper.jar` should no longer list `filter: lfs` /
-  `diff: lfs` / `merge: lfs`.
-- Optionally, actually exercising the CI fix requires pushing a `v*` tag (the workflow's only
-  trigger) or a manual `gh workflow run` — flag this to the user rather than doing it
-  automatically, since it's a release-triggering action.
+- After committing, inspect the workflow file to confirm `lfs: true` is present on the checkout
+  step.
+- Exercising the actual CI fix requires pushing a `v*` tag (the workflow's only trigger) or a
+  manual `gh workflow run` — flag this to the user rather than doing it automatically, since it's
+  a release-triggering action. Once it runs, the `gradle/actions/setup-gradle@v4` step should no
+  longer report an "unknown Gradle Wrapper JAR" — the checked-out jar's checksum will be
+  `7a9ce74cff467ca1bf60a4fcd9f05185acceda4d0f382434d393e17864262c5d`, matching the official
+  Gradle 9.7.0 wrapper jar.
