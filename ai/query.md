@@ -520,3 +520,5 @@ Definitly progess, well done!
 
 ❯ Clean up (squash properly) all `ai: …` things still in the history. Make sure to look what the commits do to properly group. Follow the lplp commit/squash style skill, including keeping iterations of plans as documented.
 
+❯ Obviously don't rebase the `base/base` branch; but you may rebase on top of it while at it. Also note, whenever I write something, the hooks will create another commit automatically, which should naturally be included as well.
+
