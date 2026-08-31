@@ -518,3 +518,5 @@ Definitly progess, well done!
 ❯ Conversation compacted <kbd>manual</kbd>:
 > - [Result (`40763` chars, `40 KB`)](output/compact/002.9949b3e4-ebdd-44a5-86c9-9ff7b3ddafa1/result.md)
 
+❯ Clean up (squash properly) all `ai: …` things still in the history. Make sure to look what the commits do to properly group. Follow the lplp commit/squash style skill, including keeping iterations of plans as documented.
+
