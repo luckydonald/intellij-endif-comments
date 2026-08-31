@@ -101,6 +101,7 @@ val runIdeForUiTests = intellijPlatformTesting.runIde.register("runIdeForUiTests
             listOf(
                 "-Drobot-server.port=8082",
                 "-Djb.consents.confirmation.enabled=false",
+                "-Djb.privacy.policy.text=<!--999.999-->",
                 "-Didea.trust.all.projects=true",
                 "-Dide.show.tips.on.startup.default.value=false",
             )

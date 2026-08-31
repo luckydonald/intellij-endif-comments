@@ -1,0 +1,107 @@
+.github/workflows/test.yml
+ui-test
+Launch sandbox IDE with robot-server for UI testing
+Run sudo apt-get update && sudo apt-get install -y xvfb
+Get:1 file:/etc/apt/apt-mirrors.txt Mirrorlist [144 B]
+…
+0 upgraded, 0 newly installed, 0 to remove and 58 not upgraded.
+Waiting for robot-server on :8082...
+Fetching distribution.
+Downloading https://services.gradle.org/distributions/gradle-9.7.0-bin.zip
+Starting a Gradle Daemon (subsequent builds will be faster)
+Calculating task graph as no cached configuration is available for tasks: runIdeForUiTests
+> Task :checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :initializeIntellijPlatformPlugin
+> Task :generateManifest
+> Task :patchPluginXml
+> Task :processResources
+
+> Task :compileKotlin
+w: -Xjvm-default is deprecated. Use -jvm-default instead.
+
+> Task :compileJava NO-SOURCE
+> Task :classes
+> Task :jar
+> Task :composedJar
+> Task :prepareSandbox_runIdeForUiTests
+
+> Task :runIdeForUiTests
+Aug 31, 2026 2:03:57 PM java.util.prefs.FileSystemPreferences setupUserRoot
+INFO: Created user preferences directory.
+2026-08-31 14:03:58,570 [    724]   WARN - #c.i.i.p.PluginManager - Environment-configured module is not found: intellij.platform.jps.build
+2026-08-31 14:03:58,571 [    725]   WARN - #c.i.i.p.PluginManager - Environment-configured module is not found: intellij.platform.jps.build.dependencyGraph
+2026-08-31 14:03:58,685 [    839]   WARN - #c.i.i.p.PluginManager - Problems found loading plugins:
+  Plugin 'Dev Containers' (org.jetbrains.plugins.docker.gateway) requires plugin with id=com.intellij.modules.ultimate to be enabled
+  Plugin 'Data Wrangler' (com.intellij.dataWrangler.plugin) requires plugin with id=com.intellij.modules.ultimate to be enabled
+  Plugin 'Database Tools and SQL' (com.intellij.database) has dependency on 'IDEA CORE' which cannot be loaded
+  Plugin 'Remote Development Gateway' (com.jetbrains.gateway) requires plugin with id=com.intellij.modules.ultimate to be enabled
+  Plugin 'Karma' (Karma) requires plugin with id=com.intellij.modules.ultimate to be enabled
+  Plugin 'Less' (org.jetbrains.plugins.less) requires plugin with id=com.intellij.modules.ultimate to be enabled
+  Plugin 'Next.js' (intellij.nextjs) requires plugin with id=com.intellij.modules.ultimate to be enabled
+  Plugin 'Node.js' (NodeJS) requires plugin with id=com.intellij.modules.ultimate to be enabled
+  Plugin 'Node.js Remote Interpreter' (org.jetbrains.plugins.node-remote-interpreter) requires plugin with id=com.intellij.modules.ultimate to be enabled
+  Plugin 'Django' (com.intellij.python.django) requires plugin with id=com.intellij.modules.ultimate to be enabled
+  Plugin 'Python' (Pythonid) requires plugin with id=com.intellij.modules.ultimate to be enabled
+  Plugin 'PyScript' (com.jetbrains.python.pyscript) has dependency on 'Python' which cannot be loaded
+  Plugin 'SSH Remote Run' (org.jetbrains.plugins.remote-run) requires plugin with id=com.intellij.modules.ultimate to be enabled
+  Plugin 'Sass' (org.jetbrains.plugins.sass) requires plugin with id=com.intellij.modules.ultimate to be enabled
+  Plugin 'Styled Components & Styled JSX' (com.deadlock.scsyntax) requires plugin with id=com.intellij.modules.ultimate to be enabled
+  Plugin 'Tailwind CSS' (com.intellij.tailwindcss) requires plugin with id=com.intellij.modules.ultimate to be enabled
+  Plugin 'Time Tracking' (com.intellij.tasks.timeTracking) requires plugin with id=com.intellij.modules.ultimate to be enabled
+  Plugin 'FTP/SFTP/WebDAV Connectivity' (com.jetbrains.plugins.webDeployment) requires plugin with id=com.intellij.modules.ultimate to be enabled
+2026-08-31 14:03:58,759 [    913]   WARN - #c.i.p.instanceContainer - InstanceNotOverridableException: Incorrect override for com.intellij.modcommand.ModCommandExecutor: com.jetbrains.rdserver.ui.intentions.RemoteModCommandExecutor overrides com.intellij.lang.impl.modcommand.ModCommandExecutorImpl even though the existing implementation is not overridable (not declared as 'open=true')
+2026-08-31 14:03:58,761 [    915]   WARN - #c.i.p.instanceContainer - InstanceNotOverridableException: Incorrect override for com.intellij.openapi.project.impl.ProjectStoreFactory: com.intellij.configurationScript.providers.ConfigurationScriptProjectStoreFactory overrides com.intellij.configurationStore.PlatformLangProjectStoreFactory even though the existing implementation is not overridable (not declared as 'open=true')
+
+(java:3274): dbind-WARNING **: 14:03:58.921: AT-SPI: Error retrieving accessibility bus address: org.freedesktop.DBus.Error.ServiceUnknown: The name org.a11y.Bus was not provided by any .service files
+2026-08-31 14:04:00,750 [   2904]   WARN - #c.i.s.c.i.StationSocketConnectionLoop - Discovery connection failed with NoSuchFileException (/run/user/1001/jb.station.sock)
+2026-08-31 14:04:00,795 [   2949]   WARN - #c.i.o.e.c.i.EditorColorsManagerImpl - Cannot find scheme: Classic Light from plugins: com.intellij
+2026-08-31 14:04:01,712 [   3866] SEVERE - #c.i.d.LoadingState - Should be called at least in the state COMPONENTS_LOADED, the current state is: CONFIGURATION_STORE_INITIALIZED
+Current violators count: 1
+
+
+java.lang.Throwable
+	at com.intellij.diagnostic.LoadingState.logStateError(LoadingState.java:64)
+	at com.intellij.diagnostic.LoadingState.checkOccurred(LoadingState.java:60)
+	at com.intellij.openapi.util.registry.Registry$Companion.getInstance(Registry.kt:206)
+	at com.intellij.openapi.util.registry.Registry$Companion.get(Registry.kt:74)
+	at com.intellij.openapi.progress.util.SuvorovProgress.dispatchEventsUntilComputationCompletes(SuvorovProgress.kt:134)
+	at com.intellij.openapi.application.impl.ApplicationImpl.lambda$postInit$2(ApplicationImpl.java:1465)
+	at com.intellij.platform.locking.impl.RunSuspend.await(NestedLocksThreadingSupport.kt:1720)
+	at com.intellij.platform.locking.impl.NestedLocksThreadingSupportKt.runSuspendWithWaitingConsumer(NestedLocksThreadingSupport.kt:1695)
+	at com.intellij.platform.locking.impl.NestedLocksThreadingSupportKt.access$runSuspendWithWaitingConsumer(NestedLocksThreadingSupport.kt:1)
+	at com.intellij.platform.locking.impl.NestedLocksThreadingSupport.runSuspendMaybeConsuming(NestedLocksThreadingSupport.kt:1634)
+	at com.intellij.platform.locking.impl.NestedLocksThreadingSupport$ComputationState.acquireWriteIntentPermit(NestedLocksThreadingSupport.kt:447)
+	at com.intellij.platform.locking.impl.NestedLocksThreadingSupport.runWriteIntentReadAction(NestedLocksThreadingSupport.kt:701)
+	at com.intellij.openapi.application.impl.ApplicationImpl.runWriteIntentReadAction(ApplicationImpl.java:1226)
+	at com.intellij.openapi.application.WriteIntentReadAction.computeThrowable(WriteIntentReadAction.java:55)
+	at com.intellij.openapi.application.WriteIntentReadAction.run(WriteIntentReadAction.java:23)
+	at com.intellij.openapi.ui.DialogWrapper.doShow(DialogWrapper.java:1925)
+	at com.intellij.openapi.ui.DialogWrapper.show(DialogWrapper.java:1873)
+	at com.intellij.openapi.ui.DialogWrapper.showAndGet(DialogWrapper.java:1887)
+	at com.intellij.ide.gdpr.AgreementUiBuilder.build$intellij_platform_ide_impl(AgreementUi.kt:168)
+	at com.intellij.ide.gdpr.AgreementUiKt.showAgreementUi(AgreementUi.kt:43)
+	at com.intellij.ide.gdpr.Agreements.showEndUserAndDataSharingAgreements(Agreements.kt:28)
+	at com.intellij.platform.ide.bootstrap.EuaKt$prepareShowEuaIfNeededTask$2.invokeSuspend$lambda$0(eua.kt:73)
+	at com.intellij.platform.ide.bootstrap.EuaKt$prepareShowEuaIfNeededTask$prepareAndExecuteInEdt$2$1.invokeSuspend(eua.kt:65)
+	at kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:34)
+	at kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:100)
+	at java.desktop/java.awt.event.InvocationEvent.dispatch(InvocationEvent.java:323)
+	at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:732)
+	at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:711)
+	at com.intellij.ide.IdeEventQueue.dispatchEvent(IdeEventQueue.kt:351)
+	at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:207)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:128)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:117)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:113)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:105)
+	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:92)
+2026-08-31 14:04:01,725 [   3879] SEVERE - #c.i.d.LoadingState - PyCharm 2026.2.1  Build #PY-262.9437.214
+2026-08-31 14:04:01,725 [   3879] SEVERE - #c.i.d.LoadingState - JDK: 25.0.3; VM: OpenJDK 64-Bit Server VM; Vendor: JetBrains s.r.o.
+2026-08-31 14:04:01,725 [   3879] SEVERE - #c.i.d.LoadingState - OS: Linux
+2026-08-31 14:04:01,725 [   3879] SEVERE - #c.i.d.LoadingState - Last Action:
+2026-08-31 14:04:33,029 [  35183]   WARN - #c.i.l.u.p.AIPromoWindowAdvisor - Verdict calculation took too long
+2026-08-31 14:05:16,030 [  78184]   WARN - #c.i.l.u.p.AIPromoWindowAdvisor - Verdict calculation took too long
+2026-08-31 14:05:59,031 [ 121185]   WARN - #c.i.l.u.p.AIPromoWindowAdvisor - Verdict calculation took too long
+2026-08-31 14:06:42,032 [ 164186]   WARN - #c.i.l.u.p.AIPromoWindowAdvisor - Verdict calculation took too long
+2026-08-31 14:07:25,033 [ 207187]   WARN - #c.i.l.u.p.AIPromoWindowAdvisor - Verdict calculation took too long
+Error: Process completed with exit code 1.

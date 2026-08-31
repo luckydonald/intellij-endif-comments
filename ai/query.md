@@ -524,3 +524,5 @@ Definitly progess, well done!
 
 ❯ Can you tell the checkout action to use lfs?
 
+❯ /plan Fix @ai/errors/2.txt
+
