@@ -515,3 +515,6 @@ Definitly progess, well done!
 
 ❯ Document what you learned.
 
+❯ Conversation compacted <kbd>manual</kbd>:
+> - [Result (`40763` chars, `40 KB`)](output/compact/002.9949b3e4-ebdd-44a5-86c9-9ff7b3ddafa1/result.md)
+
