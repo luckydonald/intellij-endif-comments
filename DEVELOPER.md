@@ -81,8 +81,19 @@ they surface as a runtime error in an actual IDE.
 - `.github/workflows/test.yml` runs `./gradlew check` + `./gradlew verifyPlugin` on every push and
   pull request, plus a separate `ui-test` job that launches `runIdeForUiTests` under `xvfb` and
   runs `uiTest` against it.
-- `.github/workflows/release.yml` runs `./gradlew buildPlugin` on pushed version tags (`v*`) and
-  attaches the resulting ZIP to a GitHub Release.
+- `.github/workflows/release.yml` runs `./gradlew buildPlugin` on pushed version tags (`v*`),
+  attaches the resulting ZIP to a GitHub Release, and (if the `JETBRAINS_MARKETPLACE_TOKEN` repo
+  secret is set) runs `./gradlew publishPlugin` to push the release to the JetBrains Marketplace.
+
+## Releasing
+
+1. Bump `pluginVersion` in `gradle.properties`.
+2. Add an entry to `CHANGELOG.md` and mirror it in the `<change-notes>` block of
+   `src/main/resources/META-INF/plugin.xml`.
+3. Commit, then tag the commit `vX.Y.Z` (matching `pluginVersion`) and push the tag.
+4. `.github/workflows/release.yml` builds, verifies, attaches the ZIP to a GitHub Release, and — if
+   `JETBRAINS_MARKETPLACE_TOKEN` is configured under repo Settings > Secrets — publishes to the
+   Marketplace via `publishPlugin`.
 
 ## Project layout
 
@@ -94,8 +105,5 @@ they surface as a runtime error in an actual IDE.
   and removes redundant real `# end ...` comments.
 - `src/main/kotlin/de/luckydonald/endifcomments/settings/` — the persisted "Active" setting and its
   Settings page.
-- `src/main/kotlin/de/luckydonald/endifcomments/startup/` — startup notification confirming the
-  plugin loaded; added while diagnosing a "plugin installed but has no effect" bug (see below), kept
-  as a quick visual "yes it's active" signal.
 - `src/main/resources/META-INF/plugin.xml` — extension point registrations.
 - `src/uiTest/kotlin/` — the `intellij-ui-test-robot` UI smoke test (see above).

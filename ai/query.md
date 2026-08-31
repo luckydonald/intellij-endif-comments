@@ -189,7 +189,7 @@
 - [x] got notification
 - [x] got our settings
 - [x] seen the Inspections category in settings
-- [x] seeing the faked `# end def` 
+- [x] seeing the faked `# end def`
 - [ ] seeing the _remove `# end …`_ (text irrelevant) issue
 - [ ] able to apply the quickfix
 
@@ -206,4 +206,296 @@ Definitly progess, well done!
 > - [Query (`62` chars, `62 B`)](output/agents/012.bdhrsv345/prompt.md)
 > - [Answer (`10` chars, `10 B`)](output/agents/012.bdhrsv345/result.md)
 > - [Raw log (`10` chars, `10 B`)](/tmp/claude-1000/-home-user-git-luckydonald-intellij-endif-comments/8e03302c-e343-421b-b182-4b5795b0493f/tasks/bdhrsv345.output)
+
+❯ /plan the style of detected existing and fake-inserted `# end …` should be changable in the settings.
+
+❯ Task Notification:
+> - Task `a33e2e75ac0b91cc8` <kbd>completed</kbd>
+> - Tool `toolu_01ECLGPGsYTK9vB2pvPFnZY9`
+> - > Agent "Explore end-comment style and settings code" finished
+> - [Query (`2643` chars, `2.58 KB`)](output/agents/013.a33e2e75ac0b91cc8/prompt.md)
+> - [Answer (`7723` chars, `7.58 KB`)](output/agents/013.a33e2e75ac0b91cc8/result.md)
+> - [Raw log (`159506` chars, `156 KB`)](/tmp/claude-1000/-home-user-git-luckydonald-intellij-endif-comments/4658c20b-dbb8-4e54-9cc1-44a950e26e5a/tasks/a33e2e75ac0b91cc8.output)
+> - `16` tools, `35344` tokens, `0.810333 s`
+
+❯ Question answered.
+> <details><summary>
+>
+>> 1. How should users configure the end-comment style?
+>> 2. Which style variants should be supported presets (or documented as the built-in options)?
+>> 3. Should the detection regex become permissive (accept any of the known style variants regardless of the active setting) or strict (only match the currently configured style)?
+>
+> (click to expand)
+>
+> </summary>
+>
+>> **Config UI** (1/3) <kbd>Single Select</kbd><br>
+>> How should users configure the end-comment style?
+> - [ ] 1\. Preset dropdown (Recommended)
+>   - _A dropdown with a handful of fixed style presets, e.g. '# end if', '#end if', '# end: if', '# endif'. Simple, safe, no invalid regex risk._
+> - [ ] 2\. Free-text template
+>   - _A text field where the user types a template like '# end {keyword}' with a {keyword} placeholder. Fully flexible but riskier (user could break the format) and needs robust parsing/validation._
+> - [ ] 3\. Both
+>   - _Preset dropdown for common cases plus a 'Custom' option that reveals a template text field._
+> - [x] 4\. _Type something:_
+>   - > No, this is about font/color/strikethrough/italic/bold/etc. Regarding the text formatting, shall remain fixed (not user settable) as it is now. However, new: actually the detection shall be case insenstitive. So e.g. match both `# end if` and `# EnD clASS foBaR 'n stuff`.
+>
+>> **Style presets** (2/3) <kbd>Multi Select</kbd><br>
+>> Which style variants should be supported presets (or documented as the built-in options)?
+> - [ ] 1\. # end if (current default)
+>   - _Hash, space, 'end', space, keyword — today's only format._
+> - [ ] 2\. #end if
+>   - _No space between # and end._
+> - [ ] 3\. # end: if
+>   - _Colon after 'end'._
+> - [x] 4\. # endif / # END if <sup><sub><kbd>#1</kbd></sub></sup>
+>   - _Keyword glued onto 'end' (# endif), or uppercase END keyword (# END if) — pick whichever variant(s) you want, can clarify in free text._
+> - [x] 5\. _Type something:_
+>   - > Does not apply
+>
+>> **Detection scope** (3/3) <kbd>Single Select</kbd><br>
+>> Should the detection regex become permissive (accept any of the known style variants regardless of the active setting) or strict (only match the currently configured style)?
+> - [ ] 1\. Permissive (Recommended)
+>   - _Regex always accepts all known variants for detection/redundancy-check, so switching styles later or mixed codebases still work; only the *generation* (inlay/fake comment) uses the configured style._
+> - [ ] 2\. Strict
+>   - _Regex only matches the currently configured style; comments in another style are treated as ordinary comments, not recognized end-markers._
+> - [x] 3\. _Type something:_
+>   - > Does not apply.
+>
+> </details>
+>
+
+❯ Question answered.
+> <details><summary>
+>
+>> 1. For the fake-inserted virtual inlay comments (EndCommentInlayRenderer), which visual properties should be user-configurable?
+>> 2. For detected real (hand-written) redundant end-comments (RedundantEndCommentInspection), which highlight style should be selectable?
+>
+> (click to expand)
+>
+> </summary>
+>
+>> **Inlay style** (1/2) <kbd>Multi Select</kbd><br>
+>> For the fake-inserted virtual inlay comments (EndCommentInlayRenderer), which visual properties should be user-configurable?
+> - [x] 1\. Italic toggle <sup><sub><kbd>#1</kbd></sub></sup>
+>   - _Render the virtual '# end ...' text in italic instead of plain, to visually distinguish it from real code/comments._
+> - [x] 2\. Bold toggle <sup><sub><kbd>#2</kbd></sub></sup>
+>   - _Render the virtual text in bold._
+> - [x] 3\. Color source <sup><sub><kbd>#3</kbd></sub></sup>
+>   - _Let the user pick which editor color-scheme attribute key to use for the text color (e.g. line comment color vs. a dedicated custom color), instead of always using LINE_COMMENT._
+> - [x] 4\. _Type something:_
+>   - > "Strikethrough, underline, etc."
+>
+>> **Detected style** (2/2) <kbd>Single Select</kbd><br>
+>> For detected real (hand-written) redundant end-comments (RedundantEndCommentInspection), which highlight style should be selectable?
+> - [x] 1\. Preset dropdown of ProblemHighlightTypes (Recommended)
+>   - _Let the user pick among IntelliJ's built-in highlight types: strikethrough (current, LIKE_DEPRECATED), grayed-out (LIKE_UNUSED_SYMBOL), warning underline (GENERIC_ERROR_OR_WARNING), weak warning._
+> - [ ] 2\. Keep fixed, only fix case-insensitivity
+>   - _Leave the redundant-comment highlight style as-is (strikethrough); only add the case-insensitive detection fix from your last message._
+> - [ ] 3\. _Type something._
+>
+> </details>
+>
+
+❯ Write tests for the settings (if missing):
+- _Activate_
+  0. Check the features are available in our test python file (virtual lines, inspections, fixes).
+  1. open our settings
+  2. _Activate_ is turned on currently (= per default)
+  3. disable _Activate_
+  4. <kbd>OK</kbd>
+  5. Check the features are not available in our test python file (virtual lines, inspections, fixes).
+  6. open our settings again
+  7. enable _Activate_
+  8. <kbd>OK</kbd>
+  9. Check the features are available again in our test python file (virtual lines, inspections, fixes).
+- _Virtual End-Comment Style_
+  - test for each option, that it indeed changes the preview below accordingly.
+  - Maybe a each-combination-matrix can be calculated & used.
+  - Color picker enabled & works if _Custom Color_ is selected, otherwise disabled & click does nothing.
+  - For custom color test at least 2
+- _Redundant Comment Warning Style_
+  - test each dropdown action
+  - Check that the dropdown value is reflected in the preview
+- for all of those settings also add tests:
+  - check the <kbd>Apply<kbd> button comes available upon change
+  - check settings file being updated in repo with <kbd>OK</kbd> button.
+  - test that a change with the <kbd>Cancel</kbd> button is not persisted/applied/saved.
+
+❯ /plan I want to deploy this. Therefore I need to polish everything up.
+
+❯ Question answered.
+> <details><summary>
+>
+>> 1. Deploy where?
+>
+> (click to expand)
+>
+> </summary>
+>
+>> **Target** (1/1) <kbd>Single Select</kbd><br>
+>> Deploy where?
+> - [x] 1\. JetBrains Marketplace (Recommended)
+>   - _Public plugin listing, needs plugin.xml metadata, license, marketplace token, CI release workflow_
+> - [ ] 2\. Internal/private only
+>   - _Build signed zip, distribute manually or via private repo, no marketplace review_
+> - [ ] 3\. _Type something._
+>
+> </details>
+>
+
+❯ Question answered.
+> <details><summary>
+>
+>> 1. License for Marketplace listing?
+>> 2. Startup balloon notification ("plugin is active") on every project open — keep or remove for public release?
+>> 3. Plugin icon for Marketplace — do you have one, or should I generate a placeholder?
+>
+> (click to expand)
+>
+> </summary>
+>
+>> **License** (1/3) <kbd>Single Select</kbd><br>
+>> License for Marketplace listing?
+> - [ ] 1\. MIT (Recommended)
+>   - _Permissive, simple, common for small IntelliJ plugins_
+> - [ ] 2\. Apache-2.0
+>   - _Permissive, adds patent grant, more verbose_
+> - [ ] 3\. I'll pick later
+>   - _Skip license file for now, flag as blocker in plan_
+> - [x] 4\. _Type something:_
+>   - > Keep open sauce
+>
+>> **Notification** (2/3) <kbd>Single Select</kbd><br>
+>> Startup balloon notification ("plugin is active") on every project open — keep or remove for public release?
+> - [x] 1\. Remove (Recommended)
+>   - _Noisy for real users; was only a dev-verification aid per plan 002_
+> - [ ] 2\. Keep
+>   - _Leave as-is_
+> - [ ] 3\. _Type something._
+>
+>> **Icon** (3/3) <kbd>Single Select</kbd><br>
+>> Plugin icon for Marketplace — do you have one, or should I generate a placeholder?
+> - [ ] 1\. Generate simple placeholder
+>   - _Add a basic pluginIcon.svg so Marketplace requirement is met_
+> - [ ] 2\. I'll provide one
+>   - _Skip icon work, you'll add src/main/resources/META-INF/pluginIcon.svg yourself_
+> - [x] 3\. _Type something:_
+>   - > Yes, build me an SVG icon displaying `# end` in a cool way.
+>
+> </details>
+>
+
+❯ No licence must be to keep it open when doing things with it.
+
+❯ Question answered.
+> <details><summary>
+>
+>> 1. Which icon style for the plugin logo?
+>
+> (click to expand)
+>
+> </summary>
+>
+>> **Icon style** (1/1) <kbd>Single Select</kbd><br>
+>> Which icon style for the plugin logo?
+> - [ ] 1\. Badge, muted # (Recommended)
+>   - _Rounded navy badge, dim # + bright teal end, monospace, corner bracket accent_
+>   - .
+>     <svg width="120" height="120" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+>       <rect width="40" height="40" rx="8" fill="#1E2530"/>
+>       <path d="M8 30 L8 34 L12 34" stroke="#3D4757" stroke-width="2" fill="none" stroke-linecap="round"/>
+>       <text x="20" y="24" font-family="JetBrains Mono, Fira Code, monospace" font-size="13" text-anchor="middle">
+>         <tspan fill="#5C6B7A">#</tspan><tspan fill="#4FD6A8" dx="1">end</tspan>
+>       </text>
+>     </svg>
+>
+> - [ ] 2\. Two-line comment block
+>   - _# end if / # end def stacked small, feels like a real code snippet_
+>   - .
+>     <svg width="120" height="120" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+>       <rect width="40" height="40" rx="8" fill="#1E2530"/>
+>       <text x="6" y="18" font-family="JetBrains Mono, Fira Code, monospace" font-size="6" fill="#5C6B7A">
+>         <tspan fill="#5C6B7A">#</tspan><tspan fill="#4FD6A8">end if</tspan>
+>       </text>
+>       <text x="6" y="28" font-family="JetBrains Mono, Fira Code, monospace" font-size="6">
+>         <tspan fill="#5C6B7A">#</tspan><tspan fill="#4FD6A8">end def</tspan>
+>       </text>
+>       <rect x="5" y="9" width="30" height="22" rx="3" fill="none" stroke="#3D4757" stroke-width="1"/>
+>     </svg>
+>
+> - [ ] 3\. Bracket-close mark
+>   - _Big stylized closing bracket/chevron with # end small underneath, more abstract/logo-like_
+>   - .
+>     <svg width="120" height="120" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+>       <rect width="40" height="40" rx="8" fill="#1E2530"/>
+>       <path d="M14 8 L26 20 L14 32" stroke="#4FD6A8" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+>       <text x="20" y="38" font-family="JetBrains Mono, Fira Code, monospace" font-size="7" text-anchor="middle">
+>         <tspan fill="#5C6B7A">#</tspan><tspan fill="#4FD6A8">end</tspan>
+>       </text>
+>     </svg>
+>
+> - [x] 4\. _Notes:_
+>   - > I think I want a pink / violet theme for it
+>
+> </details>
+>
+
+❯ Question answered.
+> <details><summary>
+>
+>> 1. Pink/violet recolor — which layout?
+>
+> (click to expand)
+>
+> </summary>
+>
+>> **Icon style** (1/1) <kbd>Single Select</kbd><br>
+>> Pink/violet recolor — which layout?
+> - [x] 1\. Badge, muted # (Recommended)
+>   - _Deep violet badge, dim # + bright pink end, monospace, corner bracket accent_
+>   - .
+>     <svg width="120" height="120" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+>       <rect width="40" height="40" rx="8" fill="#241B34"/>
+>       <path d="M8 30 L8 34 L12 34" stroke="#5B4A7A" stroke-width="2" fill="none" stroke-linecap="round"/>
+>       <text x="20" y="24" font-family="JetBrains Mono, Fira Code, monospace" font-size="13" text-anchor="middle">
+>         <tspan fill="#8A76B0">#</tspan><tspan fill="#F057C4" dx="1">end</tspan>
+>       </text>
+>     </svg>
+>
+> - [ ] 2\. Two-line comment block
+>   - _# end if / # end def stacked small, feels like a real code snippet_
+>   - .
+>     <svg width="120" height="120" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+>       <rect width="40" height="40" rx="8" fill="#241B34"/>
+>       <text x="6" y="18" font-family="JetBrains Mono, Fira Code, monospace" font-size="6">
+>         <tspan fill="#8A76B0">#</tspan><tspan fill="#F057C4">end if</tspan>
+>       </text>
+>       <text x="6" y="28" font-family="JetBrains Mono, Fira Code, monospace" font-size="6">
+>         <tspan fill="#8A76B0">#</tspan><tspan fill="#F057C4">end def</tspan>
+>       </text>
+>       <rect x="5" y="9" width="30" height="22" rx="3" fill="none" stroke="#5B4A7A" stroke-width="1"/>
+>     </svg>
+>
+> - [ ] 3\. Bracket-close mark
+>   - _Big violet-to-pink chevron with # end small underneath, more abstract/logo-like_
+>   - .
+>     <svg width="120" height="120" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+>       <defs>
+>         <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+>           <stop offset="0" stop-color="#8A5CF6"/>
+>           <stop offset="1" stop-color="#F057C4"/>
+>         </linearGradient>
+>       </defs>
+>       <rect width="40" height="40" rx="8" fill="#241B34"/>
+>       <path d="M14 8 L26 20 L14 32" stroke="url(#g)" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+>       <text x="20" y="38" font-family="JetBrains Mono, Fira Code, monospace" font-size="7" text-anchor="middle">
+>         <tspan fill="#8A76B0">#</tspan><tspan fill="#F057C4">end</tspan>
+>       </text>
+>     </svg>
+>
+> - [ ] 4\. _Notes: Add notes on this design._
+>
+> </details>
+>
 

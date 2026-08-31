@@ -53,3 +53,7 @@ to turn the whole plugin on or off.
 
 Not yet published to the JetBrains Marketplace. Until then, see [`DEVELOPER.md`](DEVELOPER.md) for
 building it from source and loading it into PyCharm.
+
+## License
+
+[GPL-3.0](LICENSE) © 2026 Lucky Lucy

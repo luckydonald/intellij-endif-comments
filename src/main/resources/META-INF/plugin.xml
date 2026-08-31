@@ -9,6 +9,18 @@
     <code># end ...</code> comments as redundant, with a quick-fix to remove them.
     ]]></description>
 
+    <change-notes><![CDATA[
+    <h3>1.0.0</h3>
+    <ul>
+        <li>Virtual, editor-only <code># end if</code> / <code># end with</code> / <code># end def</code> /
+        ... block-ending markers for every indentation-opening Python statement.</li>
+        <li>Detects hand-written end comments (including near-miss/mismatched forms) and flags them as
+        redundant, with a quick-fix to remove them.</li>
+        <li>Case-insensitive end-comment detection.</li>
+        <li>Configurable virtual-marker and redundant-comment warning style.</li>
+    </ul>
+    ]]></change-notes>
+
     <depends>com.intellij.modules.platform</depends>
     <depends>com.intellij.modules.python</depends>
 
@@ -32,12 +44,5 @@
         <applicationConfigurable
                 instance="de.luckydonald.endifcomments.settings.EndCommentConfigurable"
                 displayName="Explicit Block Endings"/>
-
-        <notificationGroup
-                id="de.luckydonald.endifcomments.startup"
-                displayType="BALLOON"/>
-
-        <postStartupActivity
-                implementation="de.luckydonald.endifcomments.startup.StartupNotifier"/>
     </extensions>
 </idea-plugin>

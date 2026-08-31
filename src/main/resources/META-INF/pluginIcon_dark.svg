@@ -1,0 +1,7 @@
+<svg width="40" height="40" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+  <rect width="40" height="40" rx="8" fill="#3A2C52"/>
+  <path d="M8 30 L8 34 L12 34" stroke="#7A6699" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <text x="20" y="24" font-family="JetBrains Mono, Fira Code, monospace" font-size="13" text-anchor="middle">
+    <tspan fill="#B0A0D0">#</tspan><tspan fill="#F057C4" dx="1">end</tspan>
+  </text>
+</svg>
