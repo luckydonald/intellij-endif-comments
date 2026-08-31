@@ -520,3 +520,5 @@ Definitly progess, well done!
 
 ❯ Clean up (squash properly) all `ai: …` things still in the history. Make sure to look what the commits do to properly group. Follow the lplp commit/squash style skill, including keeping iterations of plans as documented.
 
+❯ /plan Fix @ai/errors/1.txt
+

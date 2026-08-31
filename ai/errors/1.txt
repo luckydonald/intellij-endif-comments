@@ -1,0 +1,26 @@
+.github/workflows/release.yml
+Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+Run gradle/actions/setup-gradle@v4
+Merged default JDK locations into /home/runner/.m2/toolchains.xml
+Preparing cache for cleanup.
+Restore Gradle state from cache
+Fetched 10 of 59 checksums
+Fetched 20 of 59 checksums
+Fetched 30 of 59 checksums
+Fetched 40 of 59 checksums
+Fetched 50 of 59 checksums
+Fetched 59 of 59 checksums
+✗ Found unknown Gradle Wrapper JAR files:
+  307eca533bfc5c42b23f61492eb1cf32a0424ea0e3796b8ac1ff70a9dbd63f35 gradle/wrapper/gradle-wrapper.jar
+Error: Error: At least one Gradle Wrapper Jar failed validation!
+  See https://github.com/gradle/actions/blob/main/docs/wrapper-validation.md#validation-failures
+✗ Found unknown Gradle Wrapper JAR files:
+  307eca533bfc5c42b23f61492eb1cf32a0424ea0e3796b8ac1ff70a9dbd63f35 gradle/wrapper/gradle-wrapper.jar
+Error: At least one Gradle Wrapper Jar failed validation!
+  See https://github.com/gradle/actions/blob/main/docs/wrapper-validation.md#validation-failures
+✗ Found unknown Gradle Wrapper JAR files:
+  307eca533bfc5c42b23f61492eb1cf32a0424ea0e3796b8ac1ff70a9dbd63f35 gradle/wrapper/gradle-wrapper.jar
+    at Object.validateWrappers (/home/runner/work/_actions/gradle/actions/v4/dist/setup-gradle/main/index.js:160090:15)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async Object.setup (/home/runner/work/_actions/gradle/actions/v4/dist/setup-gradle/main/index.js:159551:5)
+    at async run (/home/runner/work/_actions/gradle/actions/v4/dist/setup-gradle/main/index.js:156025:9)
