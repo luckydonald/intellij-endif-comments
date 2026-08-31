@@ -513,3 +513,5 @@ Definitly progess, well done!
 
 ❯ What are my next steps now?
 
+❯ Document what you learned.
+
