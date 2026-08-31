@@ -1,0 +1,1 @@
+Background command "./gradlew verifyPlugin 2>&1 | tail -60" completed (exit code 0)

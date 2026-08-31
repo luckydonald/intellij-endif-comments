@@ -31,3 +31,9 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           files: build/distributions/*.zip
+
+      - name: Publish to JetBrains Marketplace
+        if: ${{ secrets.JETBRAINS_MARKETPLACE_TOKEN != '' }}
+        env:
+          PUBLISH_TOKEN: ${{ secrets.JETBRAINS_MARKETPLACE_TOKEN }}
+        run: ./gradlew publishPlugin

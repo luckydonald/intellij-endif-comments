@@ -79,6 +79,12 @@ intellijPlatform {
             untilBuild = provider { null }
         }
     }
+
+    // Populated from the JETBRAINS_MARKETPLACE_TOKEN secret by .github/workflows/release.yml;
+    // empty locally, so `publishPlugin` simply fails fast if run outside CI without the env var set.
+    publishing {
+        token = providers.environmentVariable("PUBLISH_TOKEN")
+    }
 }
 
 // Launches a sandboxed IDE with our plugin and the `robot-server` companion plugin installed, so

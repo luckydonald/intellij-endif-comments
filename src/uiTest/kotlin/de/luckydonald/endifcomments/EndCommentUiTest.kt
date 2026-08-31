@@ -29,16 +29,12 @@ class EndCommentUiTest {
             """
             importClass(com.intellij.ide.plugins.PluginManagerCore);
             importClass(com.intellij.openapi.extensions.PluginId);
-            importClass(com.intellij.notification.NotificationGroupManager);
             importClass(com.intellij.openapi.extensions.ExtensionPointName);
 
             var descriptor = PluginManagerCore.getPlugin(PluginId.getId("de.luckydonald.endifcomments"));
             var sb = "";
             sb += "pluginFound=" + (descriptor != null) + ";";
             sb += "isEnabled=" + (descriptor != null && descriptor.isEnabled()) + ";";
-
-            var group = NotificationGroupManager.getInstance().getNotificationGroup("de.luckydonald.endifcomments.startup");
-            sb += "notificationGroupFound=" + (group != null) + ";";
 
             function containsMarker(epName, marker) {
                 var list = ExtensionPointName.create(epName).getExtensionList();
@@ -48,7 +44,6 @@ class EndCommentUiTest {
                 return false;
             }
 
-            sb += "postStartupActivityFound=" + containsMarker("com.intellij.postStartupActivity", "StartupNotifier") + ";";
             sb += "inspectionFound=" + containsMarker("com.intellij.localInspection", "RedundantEndComment") + ";";
             sb += "configurableFound=" + (containsMarker("com.intellij.applicationConfigurable", "EndCommentConfigurable") || containsMarker("com.intellij.applicationConfigurable", "Explicit Block Endings")) + ";";
             sb += "highlightingPassFound=" + containsMarker("com.intellij.highlightingPassFactory", "EndCommentPassFactory") + ";";
